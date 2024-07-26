@@ -1,13 +1,10 @@
 package com.fdmgroup.fx_app;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.util.Collections;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 
 public class DataLoaderTest {

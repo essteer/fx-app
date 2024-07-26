@@ -14,23 +14,29 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class DataLoader {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+public class DataLoader {
+	
+    private static Logger logger;
 	private ObjectMapper mapper;
 
 	public DataLoader() {
+		logger = LogManager.getLogger();
 		this.mapper = new ObjectMapper();
 	}
 	
 	public List<User> loadUsers(File file) {
 		try {
 			List<User> users = mapper.readValue(file, new TypeReference<List<User>>() {});
+			logger.info("File read successful - {}", file);
 			return users;
 
 		} catch (DatabindException | StreamReadException e) {
-			e.printStackTrace();
+			logger.fatal(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.fatal(e);
 		}
 		return Collections.emptyList();
 	}
@@ -38,12 +44,13 @@ public class DataLoader {
 	public Map<String,Currency> loadCurrencies(File file) {
 		try {
 			Map<String,Currency> currencies = mapper.readValue(file, new TypeReference<Map<String,Currency>>() {});
+			logger.info("File read successful - {}", file);
 			return currencies;
 			
 		} catch (DatabindException | StreamReadException e) {
-			e.printStackTrace();
+			logger.fatal(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.fatal(e);
 		}
 		return Collections.emptyMap();
 	}
@@ -55,22 +62,23 @@ public class DataLoader {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(file));
 			String line = bufferedReader.readLine();
-
 			while (line != null) {
 				lines.add(line);
 				line = bufferedReader.readLine();
 			}
+			logger.info("File read successful - {}", file);
+			
         } catch (DatabindException | StreamReadException e) {
-			e.printStackTrace();
+        	logger.fatal(e);
         } catch (IOException e) {
-            e.printStackTrace();
+        	logger.fatal(e);
 
         } finally {
         	if (bufferedReader != null) {
         		try {
         		bufferedReader.close();
         		} catch (IOException e) {
-        			e.printStackTrace();
+        			logger.warn("BufferedReader failed to close");
         		}
         	}
         }
