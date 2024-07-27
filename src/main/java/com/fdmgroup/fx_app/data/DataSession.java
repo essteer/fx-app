@@ -1,7 +1,5 @@
 package com.fdmgroup.fx_app.data;
 
-import com.fdmgroup.fx_app.Currency;
-import com.fdmgroup.fx_app.User;
 import com.fdmgroup.fx_app.exceptions.DataSessionException;
 
 import java.util.HashMap;
@@ -41,12 +39,16 @@ public class DataSession {
 		throw exception;
 	}
 	
-	public static Map<String,User> getUsers() {
+	public static Map<String,User> getAllUsers() {
 		Map<String,User> usersCopy = new HashMap<>();
 		for (String userName : users.keySet()) {
 			usersCopy.put(userName, users.get(userName));
 		}
 		return usersCopy;
+	}
+	
+	public static User getUser(String name) {
+		return users.get(name);
 	}
 	
 	public static void setUsers(Map<String,User> userData) {
@@ -61,6 +63,10 @@ public class DataSession {
 	}
 	
 	public static Map<String,Currency> getCurrencies() {
+		Map<String,Currency> currenciesCopy = new HashMap<>();
+		for (String currencyCode : currencies.keySet()) {
+			currenciesCopy.put(currencyCode, currencies.get(currencyCode));
+		}
 		return currencies;
 	}
 

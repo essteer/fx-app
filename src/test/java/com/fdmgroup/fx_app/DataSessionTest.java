@@ -6,8 +6,10 @@ import org.junit.jupiter.api.*;
 import java.io.File;
 import java.util.Map;
 
+import com.fdmgroup.fx_app.data.Currency;
 import com.fdmgroup.fx_app.data.DataLoader;
 import com.fdmgroup.fx_app.data.DataSession;
+import com.fdmgroup.fx_app.data.User;
 import com.fdmgroup.fx_app.exceptions.DataSessionException;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) 
@@ -52,10 +54,10 @@ public class DataSessionTest {
 	
 	@Test
 	@Order(4)
-	@DisplayName("getUsers returns expected object")
-	public void test_getUsers() {
+	@DisplayName("getAllUsers returns expected object")
+	public void test_getAllUsers() {
 		DataSession.init(users, currencies);
-		assertEquals(users, DataSession.getUsers());
+		assertEquals(users, DataSession.getAllUsers());
 	}
 	
 	@Test
@@ -71,14 +73,14 @@ public class DataSessionTest {
 	@DisplayName("setUsers overwrites users attribute")
 	public void test_setUsers() {
 		DataSession.init(users, currencies);
-		Map<String, User> updatedUsers = DataSession.getUsers();
+		Map<String, User> updatedUsers = DataSession.getAllUsers();
 		updatedUsers.remove("Bob");
-		assertEquals(users, DataSession.getUsers());
-		assertTrue(DataSession.getUsers().containsKey("Bob"));
+		assertEquals(users, DataSession.getAllUsers());
+		assertTrue(DataSession.getAllUsers().containsKey("Bob"));
 		
 		DataSession.setUsers(updatedUsers);
-		assertEquals(updatedUsers, DataSession.getUsers());
-		assertFalse(DataSession.getUsers().containsKey("Bob"));
+		assertEquals(updatedUsers, DataSession.getAllUsers());
+		assertFalse(DataSession.getAllUsers().containsKey("Bob"));
 		DataSession.setUsers(users);  // Reset Singleton instance upon test completion
 	}
 
