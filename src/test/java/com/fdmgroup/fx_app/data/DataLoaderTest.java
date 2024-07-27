@@ -1,9 +1,7 @@
-package com.fdmgroup.fx_app;
+package com.fdmgroup.fx_app.data;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
-
-import com.fdmgroup.fx_app.data.DataLoader;
 
 import java.io.File;
 import java.util.Collections;

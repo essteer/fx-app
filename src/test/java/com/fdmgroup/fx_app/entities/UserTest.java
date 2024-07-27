@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app;
+package com.fdmgroup.fx_app.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.*;
-
-import com.fdmgroup.fx_app.data.User;
 
 public class UserTest {
 	
@@ -35,11 +33,13 @@ public class UserTest {
 	@DisplayName("updateWallet overwrites existing wallet")
 	public void test_updateWallet() {
 		Map<String,Double> newWallet = new HashMap<>();
+		newWallet.put("usd", 100.0);
+		newWallet.put("cad", 50.0);
 		newWallet.put("xxx", 99.99);
 		
 		assertNotEquals(newWallet, user.getWallet());
 		
-		user.updateWallet(newWallet);
+		user.updateWallet("xxx", 99.99);
 		assertEquals(newWallet, user.getWallet());
 	}
 

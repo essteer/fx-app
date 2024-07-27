@@ -7,10 +7,10 @@ import java.util.Map;
 
 import org.junit.jupiter.api.*;
 
-import com.fdmgroup.fx_app.data.Currency;
 import com.fdmgroup.fx_app.data.DataLoader;
 import com.fdmgroup.fx_app.data.DataSession;
-import com.fdmgroup.fx_app.data.User;
+import com.fdmgroup.fx_app.entities.Currency;
+import com.fdmgroup.fx_app.entities.User;
 
 public class ConverterTest {
 	

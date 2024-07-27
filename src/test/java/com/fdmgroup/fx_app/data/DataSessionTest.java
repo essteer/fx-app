@@ -1,16 +1,13 @@
-package com.fdmgroup.fx_app;
+package com.fdmgroup.fx_app.data;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
-import com.fdmgroup.fx_app.data.Currency;
-import com.fdmgroup.fx_app.data.DataLoader;
-import com.fdmgroup.fx_app.data.DataSession;
-import com.fdmgroup.fx_app.data.User;
+import com.fdmgroup.fx_app.entities.Currency;
+import com.fdmgroup.fx_app.entities.User;
 import com.fdmgroup.fx_app.exceptions.DataSessionException;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) 
@@ -69,20 +66,4 @@ public class DataSessionTest {
 		assertEquals(currencies, DataSession.getCurrencies());
 	}
 	
-	@Test
-	@Order(6)
-	@DisplayName("updateUserWallet overwrites existing wallet")
-	public void test_updateUserWallet() {
-		DataSession.init(users, currencies);
-		User user = DataSession.getUser("Bob");
-		
-		Map<String,Double> newWallet = new HashMap<>();
-		newWallet.put("xxx", 99.99);
-		
-		assertNotEquals(newWallet, user.getWallet());
-		
-		user.updateWallet(newWallet);
-		assertEquals(newWallet, DataSession.getUser("Bob").getWallet());
-	}
-
 }
