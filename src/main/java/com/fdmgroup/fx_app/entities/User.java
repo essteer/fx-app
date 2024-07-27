@@ -1,5 +1,6 @@
-package com.fdmgroup.fx_app.data;
+package com.fdmgroup.fx_app.entities;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,11 +24,15 @@ public class User {
 	}
 	
 	public Map<String,Double> getWallet() {
-		return this.wallet;
+		Map<String, Double> walletCopy = new HashMap<>();
+        for (Map.Entry<String, Double> entry : wallet.entrySet()) {
+            walletCopy.put(entry.getKey(), entry.getValue());
+        }
+        return walletCopy;
 	}
 	
-	public void updateWallet(Map<String,Double> newWallet) {
-		this.wallet = newWallet;
+	public void updateWallet(String currency, double newAmount) {
+		this.wallet.put(currency, newAmount);
 	}
 	
 	public String toString() {
