@@ -18,7 +18,7 @@ public class DataSession {
 	
 	private DataSession() {}
 	
-	public static void init(Map<String,User> userData, Map<String,Currency> currencyData) {
+	public static void init(Map<String,User> userData, Map<String,Currency> currencyData) throws DataSessionException {
 		if (initialised) {
 			logger.warn("Cannot re-initialise");
 		} else {
@@ -51,15 +51,9 @@ public class DataSession {
 		return users.get(name);
 	}
 	
-	public static void setUsers(Map<String,User> userData) {
-		if (userData.isEmpty()) {
-			logger.warn("Cannot store empty User map");
-		} else if (!(userData instanceof Map<String,User>)) {
-			logger.warn("Cannot update User map with invalid data type: {}", userData.getClass());
-		} else {
-			users = userData;
-			logger.info("User list update successful");
-		}
+	public static void updateUserWallet(String name, Map<String,Double> newWallet) {
+		User user = getUser(name);
+		user.updateWallet(newWallet);
 	}
 	
 	public static Map<String,Currency> getCurrencies() {

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fdmgroup.fx_app.data.Currency;
@@ -70,18 +71,18 @@ public class DataSessionTest {
 	
 	@Test
 	@Order(6)
-	@DisplayName("setUsers overwrites users attribute")
-	public void test_setUsers() {
+	@DisplayName("updateUserWallet overwrites existing wallet")
+	public void test_updateUserWallet() {
 		DataSession.init(users, currencies);
-		Map<String, User> updatedUsers = DataSession.getAllUsers();
-		updatedUsers.remove("Bob");
-		assertEquals(users, DataSession.getAllUsers());
-		assertTrue(DataSession.getAllUsers().containsKey("Bob"));
+		User user = DataSession.getUser("Bob");
 		
-		DataSession.setUsers(updatedUsers);
-		assertEquals(updatedUsers, DataSession.getAllUsers());
-		assertFalse(DataSession.getAllUsers().containsKey("Bob"));
-		DataSession.setUsers(users);  // Reset Singleton instance upon test completion
+		Map<String,Double> newWallet = new HashMap<>();
+		newWallet.put("xxx", 99.99);
+		
+		assertNotEquals(newWallet, user.getWallet());
+		
+		user.updateWallet(newWallet);
+		assertEquals(newWallet, DataSession.getUser("Bob").getWallet());
 	}
 
 }

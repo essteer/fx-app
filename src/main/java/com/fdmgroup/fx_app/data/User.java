@@ -26,6 +26,10 @@ public class User {
 		return this.wallet;
 	}
 	
+	public void updateWallet(Map<String,Double> newWallet) {
+		this.wallet = newWallet;
+	}
+	
 	public String toString() {
 		String walletContents = "";
 		for (String currency : this.wallet.keySet()) {
