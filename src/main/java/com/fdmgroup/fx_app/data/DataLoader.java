@@ -14,6 +14,9 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fdmgroup.fx_app.entities.Currency;
+import com.fdmgroup.fx_app.entities.User;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -94,5 +97,16 @@ public class DataLoader {
         	}
         }
         return lines;
+	}
+	
+	public void saveUserData(File file) {
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        try {
+            mapper.writeValue(file, DataSession.getAllUsers());
+            logger.info("User data save SUCCESS - {}", file.getName());
+        
+        } catch (IOException e) {
+            logger.error("User data save FAIL - {}", e);
+        }
 	}
 }

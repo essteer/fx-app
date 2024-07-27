@@ -1,5 +1,7 @@
 package com.fdmgroup.fx_app.data;
 
+import com.fdmgroup.fx_app.entities.Currency;
+import com.fdmgroup.fx_app.entities.User;
 import com.fdmgroup.fx_app.exceptions.DataSessionException;
 
 import java.util.HashMap;
@@ -49,11 +51,6 @@ public class DataSession {
 	
 	public static User getUser(String name) {
 		return users.get(name);
-	}
-	
-	public static void updateUserWallet(String name, Map<String,Double> newWallet) {
-		User user = getUser(name);
-		user.updateWallet(newWallet);
 	}
 	
 	public static Map<String,Currency> getCurrencies() {
