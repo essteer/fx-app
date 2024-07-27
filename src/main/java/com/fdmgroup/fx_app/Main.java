@@ -13,8 +13,22 @@ import com.fdmgroup.fx_app.entities.Currency;
 import com.fdmgroup.fx_app.entities.User;
 import com.fdmgroup.fx_app.exceptions.DataSessionException;
 
+/**
+ * @author Elliott Steer
+ */
 public class Main {
 
+	/**
+	 * Main entry point of the program - loads data from external file sources, and passes transaction data for processing and to save into an output file.
+	 * Utility classes for the program are organised into three main sub-packages:
+	 * <ol>
+	 * <li>data - for classes that load, store, and validate data</li>
+	 * <li>entities - for classes that represent models such as User, Currency, and FXTransaction</li>
+	 * <li>exceptions - for custom class exceptions</li>
+	 * </ol>
+	 * Within the main section of the package are contained the Converter and TransactionProcessor classes, which perform high-level operations on the data and models contained within the rest of the program.
+	 * @param args no optional arguments exist at present
+	 */
 	public static void main(String[] args) {
 
 		Logger logger = LogManager.getLogger();

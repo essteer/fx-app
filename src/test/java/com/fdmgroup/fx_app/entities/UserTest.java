@@ -7,12 +7,18 @@ import java.util.Map;
 
 import org.junit.jupiter.api.*;
 
+/**
+ * Unit tests for the User class
+ */
 public class UserTest {
 	
 	private String name;
 	private Map<String,Double> wallet;
 	private User user;
 	
+	/**
+	 * Initialise common attributes for test cases
+	 */
 	@BeforeEach
 	void init() {
 		this.name = "Demo";
@@ -22,6 +28,9 @@ public class UserTest {
 		this.user = new User(name, wallet);
 	}
 	
+	/**
+	 * Tests a User instance has expected attributes
+	 */
 	@Test
 	@DisplayName("User objects initialise correctly")
 	public void test_User_created() {
@@ -29,6 +38,9 @@ public class UserTest {
 		assertEquals(wallet, user.getWallet());
 	}
 	
+	/**
+	 * Tests the updateWallet() method successfully updates wallet contents
+	 */
 	@Test
 	@DisplayName("updateWallet overwrites existing wallet")
 	public void test_updateWallet() {

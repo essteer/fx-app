@@ -12,20 +12,26 @@ import com.fdmgroup.fx_app.exceptions.InsufficientFundsException;
 import com.fdmgroup.fx_app.exceptions.InvalidCurrencyException;
 import com.fdmgroup.fx_app.exceptions.UserNotFoundException;
 
+/**
+ * Utility class for use in validating data received from external sources
+ */
 public class DataValidator {
 	
 	private static Logger logger = LogManager.getLogger();
 	
 	/**
 	 * Validates details for a single transaction by verifying that:
-	 * - Target User exists
-	 * - FROM and TO currencies exist
-	 * - FROM and TO currencies differ
-	 * - Transaction amount is positive (>0)
+	 * <ol>
+	 * <li>Target User exists</li>
+	 * <li>FROM and TO currencies exist</li>
+	 * <li>FROM and TO currencies differ</li>
+	 * <li>Transaction amount is positive (>0)</li>
+	 * </ol>
 	 * If a check fails, subsequent checks will still complete so that all arguments can be validated for log purposes.
 	 * Note that these checks are independent of a user's ability to perform the transaction - @see {sufficientUserFunds}.
-	 * @param transactionDetails
-	 * @return
+	 * @param fxTrade the FXTransaction object containing the relevant transaction data
+	 * @return boolean true for valid transactions otherwise false <br>
+	 * {@link InvalidCurrencyException} <br>
 	 * {@link UserNotFoundException}
 	 */
 	public static boolean validTransactionDetails(FXTransaction fxTrade) {
@@ -56,6 +62,11 @@ public class DataValidator {
 		return validDetails;
 	}
 	
+	/**
+	 * Checks whether a name is contained in the DataSession Map of User objects
+	 * @param name the name to access the User object by
+	 * @return boolean whether the name relates to a valid User objects
+	 */
 	private static boolean validUserName(String name) {
 		Map<String,User> users = DataSession.getAllUsers();
 		if (users.containsKey(name)) {
@@ -66,7 +77,11 @@ public class DataValidator {
 		return false;
 	}
 	
-	
+	/**
+	 * Checks whether a currency code is associated with a Currency object contained in the DataSession Map of Currency objects
+	 * @param currency the three-letter code to access the Currency object by
+	 * @return boolean whether the currency code relates to a valid Currency object
+	 */
 	private static boolean validCurrencyCode(String currency) {
 		Map<String,Currency> currencies = DataSession.getCurrencies();
 		if (currency.equals("usd") || currencies.containsKey(currency)) {
@@ -88,10 +103,12 @@ public class DataValidator {
 	/**
 	 * Validates that a User is able to support a transaction, for a transaction
 	 * for which the details have already been validated @see {validTransactionDetails}. Checks that:
-	 * - User holds the currency to be converted FROM
-	 * - User holds enough of the FROM currency to support the transaction amount
-	 * @param transactionDetails
-	 * @return
+	 * <ol>
+	 * <li>User holds the currency to be converted FROM</li>
+	 * <li>User holds enough of the FROM currency to support the transaction amount</li>
+	 * </ol>
+	 * @param fxTrade the FXTransaction object containing the relevant transaction data
+	 * @return boolean whether the User associated with the transaction has sufficient funds <br>
 	 * {@link InsufficientFundsException}
 	 */
 	public static boolean sufficientUserFunds(FXTransaction fxTrade) {

@@ -21,16 +21,29 @@ import com.fdmgroup.fx_app.entities.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Utility class for use in loading and saving data files
+ */
 public class DataLoader {
 	
     private static Logger logger;
 	private ObjectMapper mapper;
 
+	/**
+	 * DataLoader initialises with Logger and ObjectMapper attributes
+	 */
 	public DataLoader() {
 		logger = LogManager.getLogger();
 		this.mapper = new ObjectMapper();
 	}
 	
+	/**
+	 * Loads a List of User data from the JSON @param file then passes this to {@link createUserMap} to transform into a map of names to User objects
+	 * @param file to load User data from
+	 * @return Map of String to User objects representing User data loaded from @param file. 
+	 * Defaults to an empty Map if data cannot be loaded.
+	 * {@link createUserMap}
+	 */
 	public Map<String,User> loadUsers(File file) {
 		try {
 			List<User> userList = mapper.readValue(file, new TypeReference<List<User>>() {});
@@ -47,6 +60,12 @@ public class DataLoader {
 		return Collections.emptyMap();
 	}
 	
+	/**
+	 * Receives a List of User data from {@link loadUsers} and transforms this into a map of names to User objects, which is returned to {@link loadUsers}
+	 * @param userList User data received from {@link loadUsers}
+	 * @return userMap Map of names to User data
+	 * {@link loadUsers}
+	 */
 	private Map<String,User> createUserMap(List<User> userList) {
 		Map<String,User> userMap = new HashMap<>();
 		for (User user : userList) {
@@ -55,6 +74,12 @@ public class DataLoader {
 		return userMap;
 	}
 
+	/**
+	 * Loads and returns a Map of Currency data from the JSON @param file
+	 * @param file to load Currency data from
+	 * @return Map of String to Currency object pairs representing Currency data loaded from @param file. 
+	 * Defaults to an empty Map if data cannot be loaded.
+	 */
 	public Map<String,Currency> loadCurrencies(File file) {
 		try {
 			Map<String,Currency> currencies = mapper.readValue(file, new TypeReference<Map<String,Currency>>() {});
@@ -69,6 +94,11 @@ public class DataLoader {
 		return Collections.emptyMap();
 	}
 	
+	/**
+	 * Loads transaction data from the source .txt @param file, and passes each line as a separate String to the output file
+	 * @param file to load transaction data from
+	 * @return lines List of String objects representing transaction data
+	 */
 	public List<String> loadTransactions(File file) {
 		List<String> lines = new ArrayList<>();
 		BufferedReader bufferedReader = null;
@@ -99,6 +129,10 @@ public class DataLoader {
         return lines;
 	}
 	
+	/**
+	 * Receives an File object and saves it to a JSON file with indentation
+	 * @param file to be saved in JSON format
+	 */
 	public void saveUserData(File file) {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {

@@ -11,12 +11,18 @@ import com.fdmgroup.fx_app.entities.Currency;
 import com.fdmgroup.fx_app.entities.FXTransaction;
 import com.fdmgroup.fx_app.entities.User;
 
+/**
+ * Unit tests for the DataValidator class.
+ */
 public class DataValidatorTest {
 	
 	static Map<String,User> users;
 	static Map<String,Currency> currencies;
 	static List<String> transactions;
 	
+	/**
+	 * Initialise the DataLoader and DataSession classes with User, Currency and transactions data prior to all tests in this class
+	 */
 	@BeforeAll
 	static void init() {
 		DataLoader loader = new DataLoader();
@@ -29,6 +35,9 @@ public class DataValidatorTest {
 		DataSession.init(users, currencies);
 	}
 	
+	/**
+	 * Tests valid transaction data passes validation
+	 */
 	@Test
 	@DisplayName("Transaction with correct number of elements return true")
 	public void test_valid_transactionDetails_length() {
@@ -36,6 +45,9 @@ public class DataValidatorTest {
 		assertTrue(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
+	/**
+	 * Tests invalid transaction name data fails validation
+	 */
 	@Test
 	@DisplayName("Transaction with invalid User returns false")
 	public void test_invalid_User() {
@@ -43,6 +55,9 @@ public class DataValidatorTest {
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
+	/**
+	 * Tests invalid transaction FROM currency data fails validation
+	 */
 	@Test
 	@DisplayName("Transaction with invalid FROM currency returns false")
 	public void test_invalid_FROM_currency() {
@@ -50,6 +65,9 @@ public class DataValidatorTest {
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
+	/**
+	 * Tests invalid transaction TO currency data fails validation
+	 */
 	@Test
 	@DisplayName("Transaction with invalid TO currency returns false")
 	public void test_invalid_TO_currency() {
@@ -57,6 +75,9 @@ public class DataValidatorTest {
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
+	/**
+	 * Tests matching FROM and TO currency data fails validation
+	 */
 	@Test
 	@DisplayName("Transaction with matching FROM and TO currency returns false")
 	public void test_matching_currency() {
@@ -64,6 +85,9 @@ public class DataValidatorTest {
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
+	/**
+	 * Tests invalid transaction amount data fails validation
+	 */
 	@Test
 	@DisplayName("Transaction with invalid transaction amount returns false")
 	public void test_invalid_amount() {
@@ -71,6 +95,9 @@ public class DataValidatorTest {
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
+	/**
+	 * Tests FROM currency missing from User wallet fails validation
+	 */
 	@Test
 	@DisplayName("User missing FROM currency returns false")
 	public void test_User_missing_FROM_currency() {
@@ -78,6 +105,9 @@ public class DataValidatorTest {
 		assertFalse(DataValidator.sufficientUserFunds(fxTrade));
 	}
 	
+	/**
+	 * Tests FROM currency with insufficient funds in User wallet fails validation
+	 */
 	@Test
 	@DisplayName("User with insufficient FROM currency returns false")
 	public void test_User_insufficient_FROM_currency() {

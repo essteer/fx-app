@@ -12,11 +12,17 @@ import com.fdmgroup.fx_app.data.DataSession;
 import com.fdmgroup.fx_app.entities.Currency;
 import com.fdmgroup.fx_app.entities.User;
 
+/**
+ * Unit tests for the TransactionProcessor class
+ */
 public class TransactionProcessorTest {
 	
 	private static Map<String,User> users;
 	private static Map<String, Currency> currencies;
 	
+	/**
+	 * Initialise the DataLoader and DataSession classes with User and Currency data prior to all tests in this class
+	 */
 	@BeforeAll
 	static void init() {
         DataLoader loader = new DataLoader();
@@ -27,6 +33,9 @@ public class TransactionProcessorTest {
 		DataSession.init(users, currencies);
 	}
 	
+	/**
+	 * Tests that the executeTransaction() method runs without error when passed valid input
+	 */
 	@Test
 	@DisplayName("Valid input throws no errors")
 	public void test_valid_transaction() {
@@ -34,6 +43,9 @@ public class TransactionProcessorTest {
 		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad usd 100"));
 	}
 	
+	/**
+	 * Tests that the executeTransaction() method does not throw errors when invalid names are passed
+	 */
 	@Test
 	@DisplayName("Invalid name skips transaction without error")
 	public void test_invalid_name() {
@@ -41,6 +53,9 @@ public class TransactionProcessorTest {
 		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("xxx cad usd 100"));
 	}
 	
+	/**
+	 * Tests that the executeTransaction() method does not throw errors when invalid FROM currencies are passed
+	 */
 	@Test
 	@DisplayName("Invalid FROM currency skips transaction without error")
 	public void test_invalid_from_currency() {
@@ -48,6 +63,9 @@ public class TransactionProcessorTest {
 		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob xxx usd 100"));
 	}
 	
+	/**
+	 * Tests that the executeTransaction() method does not throw errors when invalid TO currencies are passed
+	 */
 	@Test
 	@DisplayName("Invalid TO currency skips transaction without error")
 	public void test_invalid_to_currency() {
@@ -55,6 +73,9 @@ public class TransactionProcessorTest {
 		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad xxx 100"));
 	}
 	
+	/**
+	 * Tests that the executeTransaction() method does not throw errors when invalid transaction amounts are passed
+	 */
 	@Test
 	@DisplayName("Invalid amount skips transaction without error")
 	public void test_invalid_transaction_amount() {

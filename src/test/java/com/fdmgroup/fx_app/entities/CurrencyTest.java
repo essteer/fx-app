@@ -3,8 +3,14 @@ package com.fdmgroup.fx_app.entities;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
+/**
+ * Unit tests for the Currency class
+ */
 public class CurrencyTest {
 	
+	/**
+	 * Tests a Currency instance has expected attributes
+	 */
 	@Test
 	@DisplayName("Currency objects initialise correctly")
 	public void test_Currency_created() {
