@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app;
+package com.fdmgroup.fx_app.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

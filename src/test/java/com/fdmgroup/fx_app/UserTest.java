@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.*;
 
+import com.fdmgroup.fx_app.data.User;
+
 public class UserTest {
 	
 	@Test

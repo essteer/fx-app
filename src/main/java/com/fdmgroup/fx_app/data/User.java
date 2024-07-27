@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app;
+package com.fdmgroup.fx_app.data;
 
 import java.util.Map;
 

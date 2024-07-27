@@ -3,6 +3,8 @@ package com.fdmgroup.fx_app;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
+import com.fdmgroup.fx_app.data.Currency;
+
 public class CurrencyTest {
 	
 	@Test
