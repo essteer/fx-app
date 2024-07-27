@@ -5,8 +5,8 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fdmgroup.fx_app.data.Currency;
 import com.fdmgroup.fx_app.data.DataSession;
+import com.fdmgroup.fx_app.entities.Currency;
 
 public class Converter {
 	
