@@ -5,46 +5,52 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fdmgroup.fx_app.entities.Currency;
+import com.fdmgroup.fx_app.entities.FXTransaction;
+import com.fdmgroup.fx_app.entities.User;
+import com.fdmgroup.fx_app.exceptions.InsufficientFundsException;
+import com.fdmgroup.fx_app.exceptions.InvalidCurrencyException;
+import com.fdmgroup.fx_app.exceptions.UserNotFoundException;
+
 public class DataValidator {
 	
 	private static Logger logger = LogManager.getLogger();
 	
 	/**
 	 * Validates details for a single transaction by verifying that:
-	 * - Expected values are present
 	 * - Target User exists
 	 * - FROM and TO currencies exist
 	 * - FROM and TO currencies differ
 	 * - Transaction amount is positive (>0)
-	 * As long as all expected values are present, subsequent checks will complete so that all arguments can be validated for log purposes.
+	 * If a check fails, subsequent checks will still complete so that all arguments can be validated for log purposes.
 	 * Note that these checks are independent of a user's ability to perform the transaction - @see {sufficientUserFunds}.
 	 * @param transactionDetails
 	 * @return
+	 * {@link UserNotFoundException}
 	 */
-	public static boolean validTransactionDetails(String[] transactionDetails) {
+	public static boolean validTransactionDetails(FXTransaction fxTrade) {
 		boolean validDetails = true;
-		if (transactionDetails.length != 4) {
-			logger.warn("Transaction details invalid - {}", transactionDetails.toString()); 
-			return false;  // Skip further checks on corrupt data
-		}
-		if (!(validUserName(transactionDetails[0]))) {
-			logger.warn("User '{}' not found", transactionDetails[0]);
+		if (!(validUserName(fxTrade.getName()))) {
+			UserNotFoundException exception = new UserNotFoundException("User '" + fxTrade.getName() + "' not found");
+			logger.error(exception);
 			validDetails = false;
 		}
-		if (!(validCurrencyCode(transactionDetails[1]))) {
-			logger.warn("FROM currency '{}' not found", transactionDetails[1]);
+		if (!(validCurrencyCode(fxTrade.getFromCurrency()))) {
+			InvalidCurrencyException exception = new InvalidCurrencyException("FROM currency '" + fxTrade.getFromCurrency() + "' not found");
+			logger.error(exception);
 			validDetails = false;
 		}
-		if (!(validCurrencyCode(transactionDetails[2])) ) {
-			logger.warn("TO currency '{}' not found", transactionDetails[2]);
+		if (!(validCurrencyCode(fxTrade.getToCurrency())) ) {
+			InvalidCurrencyException exception = new InvalidCurrencyException("TO currency '" + fxTrade.getToCurrency() + "' not found");
+			logger.error(exception);
 			validDetails = false;
 		}
-		if (transactionDetails[1].equals(transactionDetails[2])) {
+		if (fxTrade.getFromCurrency().equals(fxTrade.getToCurrency())) {
 			logger.warn("FROM and TO currencies match");
 			validDetails = false;
 		}
-		if (!(validateTransactionValue(transactionDetails[3])) ) {
-			logger.warn("Transaction amount '{}' invalid", transactionDetails[3]);
+		if (!(validateTransactionValue(fxTrade.getAmount())) ) {
+			logger.warn("Transaction amount '{}' invalid", fxTrade.getAmount());
 			validDetails = false;
 		}
 		return validDetails;
@@ -71,9 +77,9 @@ public class DataValidator {
 		return false;
 	}
 	
-	private static boolean validateTransactionValue(String amount) {
+	private static boolean validateTransactionValue(double amount) {
 		try {
-			return (Double.valueOf(amount) > 0);
+			return (amount > 0);
 		} catch (NumberFormatException e) {
 			return false;  // Logged by parent method
 		}
@@ -86,21 +92,26 @@ public class DataValidator {
 	 * - User holds enough of the FROM currency to support the transaction amount
 	 * @param transactionDetails
 	 * @return
+	 * {@link InsufficientFundsException}
 	 */
-	public static boolean sufficientUserFunds(String[] transactionDetails) {
-		String userName = transactionDetails[0];
+	public static boolean sufficientUserFunds(FXTransaction fxTrade) {
+		String userName = fxTrade.getName();
 		User user = DataSession.getUser(userName);
 		Map<String,Double> wallet = user.getWallet();
 		
-		String fromCurrency = transactionDetails[1];
+		String fromCurrency = fxTrade.getFromCurrency();
 		if (!(wallet.containsKey(fromCurrency))) {
-			logger.warn("User '{}' holds no {} - cannot convert FROM {}", userName, fromCurrency, fromCurrency);
+			String exceptionMessage = "User '" + userName + "' holds no " + fromCurrency.toUpperCase();
+			InsufficientFundsException exception = new InsufficientFundsException(exceptionMessage);
+			logger.error(exception);
 			return false;
 		}
 		
-		Double transactionAmount = Double.valueOf(transactionDetails[3]);
+		Double transactionAmount = fxTrade.getAmount();
 		if (wallet.get(fromCurrency) < transactionAmount) {
-			logger.warn("User '{}' holds {}{} - cannot convert FROM {}{}", userName, fromCurrency, wallet.get(fromCurrency), fromCurrency, transactionAmount);
+			String exceptionMessage = "User '" + userName + "' " + fromCurrency.toUpperCase() + " insufficient (" + fromCurrency.toUpperCase() + wallet.get(fromCurrency) + ")";
+			InsufficientFundsException exception = new InsufficientFundsException(exceptionMessage);
+			logger.error(exception);
 			return false;
 		}
 		return true;
