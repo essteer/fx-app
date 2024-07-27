@@ -36,17 +36,5 @@
 			<AppenderRef ref="FileAppender" />
 		</Logger>
 
-		<!-- This logger has two inherited appenders: one from the root, one from 
-			the package-level configuration. It overrides the level of its parent. It 
-			is the most common to name loggers based off of the fully qualified class 
-			name. -->
-		<Logger name="com.fdmgroup.fx_app.Main"
-			level="info">
-		</Logger>
-		
-		<Logger name="com.fdmgroup.fx_app.Converter" level="info" additivity="false">
-			<AppenderRef ref="FileAppender" />
-		</Logger>
-
 	</Loggers>
 </Configuration>
