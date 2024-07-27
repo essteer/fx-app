@@ -3,6 +3,8 @@ package com.fdmgroup.fx_app;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
+import com.fdmgroup.fx_app.data.DataLoader;
+
 import java.io.File;
 import java.util.Collections;
 

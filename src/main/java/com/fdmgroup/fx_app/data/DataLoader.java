@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app;
+package com.fdmgroup.fx_app.data;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +14,8 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fdmgroup.fx_app.Currency;
+import com.fdmgroup.fx_app.User;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,10 +34,8 @@ public class DataLoader {
 		try {
 			List<User> userList = mapper.readValue(file, new TypeReference<List<User>>() {});
 			logger.info("File read successful - {}", file);
-			Map<String,User> userMap = new HashMap<>();
-			for (User user : userList) {
-				userMap.putIfAbsent(user.getName(), user);
-			}
+			Map<String,User> userMap = createUserMap(userList);
+			logger.debug("User map creation successful");
 			return userMap;
 
 		} catch (DatabindException | StreamReadException e) {
@@ -44,6 +44,14 @@ public class DataLoader {
 			logger.fatal(e);
 		}
 		return Collections.emptyMap();
+	}
+	
+	private Map<String,User> createUserMap(List<User> userList) {
+		Map<String,User> userMap = new HashMap<>();
+		for (User user : userList) {
+			userMap.putIfAbsent(user.getName(), user);
+		}
+		return userMap;
 	}
 
 	public Map<String,Currency> loadCurrencies(File file) {
