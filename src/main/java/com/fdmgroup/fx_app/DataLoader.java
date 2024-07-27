@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,18 +28,22 @@ public class DataLoader {
 		this.mapper = new ObjectMapper();
 	}
 	
-	public List<User> loadUsers(File file) {
+	public Map<String,User> loadUsers(File file) {
 		try {
-			List<User> users = mapper.readValue(file, new TypeReference<List<User>>() {});
+			List<User> userList = mapper.readValue(file, new TypeReference<List<User>>() {});
 			logger.info("File read successful - {}", file);
-			return users;
+			Map<String,User> userMap = new HashMap<>();
+			for (User user : userList) {
+				userMap.putIfAbsent(user.getName(), user);
+			}
+			return userMap;
 
 		} catch (DatabindException | StreamReadException e) {
 			logger.fatal(e);
 		} catch (IOException e) {
 			logger.fatal(e);
 		}
-		return Collections.emptyList();
+		return Collections.emptyMap();
 	}
 
 	public Map<String,Currency> loadCurrencies(File file) {

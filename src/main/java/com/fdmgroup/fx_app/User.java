@@ -26,4 +26,12 @@ public class User {
 		return this.wallet;
 	}
 	
+	public String toString() {
+		String walletContents = "";
+		for (String currency : this.wallet.keySet()) {
+			walletContents += currency + ":" + wallet.get(currency) + ",";
+		}
+		return "name=" + this.name + ",wallet=[" + walletContents + "]";
+	}
+	
 }

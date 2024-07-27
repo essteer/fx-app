@@ -17,9 +17,9 @@ public class DataLoaderTest {
 	}
 	
 	@Test
-	@DisplayName("Invalid Users file returns empty List")
+	@DisplayName("Invalid Users file returns empty Map")
 	public void test_loadUsers_invalid_file() {
-		assertEquals(Collections.emptyList(), dataLoader.loadUsers(new File("ABC")));
+		assertEquals(Collections.emptyMap(), dataLoader.loadUsers(new File("ABC")));
 	}
 	
 	@Test
