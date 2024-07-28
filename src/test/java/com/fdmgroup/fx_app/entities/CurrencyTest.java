@@ -24,6 +24,9 @@ public class CurrencyTest {
 		assertEquals(inverseRate, usd.getInverseRate());
 	}
 	
+	/**
+	 * Tests Currency toString method returns String in expected format
+	 */
 	@Test
 	@DisplayName("toString method produces String in expected format")
 	public void test_toString_method() {

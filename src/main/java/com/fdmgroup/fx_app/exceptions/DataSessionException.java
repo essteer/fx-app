@@ -1,5 +1,7 @@
 package com.fdmgroup.fx_app.exceptions;
 
+import com.fdmgroup.fx_app.data.DataSession;
+
 /**
  * Custom exception class for errors related to the {@link DataSession} class.
  * This exception is thrown when there is an attempt to access a DataSession instance prior to its initialization.
