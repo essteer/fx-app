@@ -8,7 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * JSON-generated class for storing user wallet data during transaction processing
+ * Represents a User with a wallet containing various currencies and their amounts.
+ * This class is designed to be created from JSON data.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
@@ -17,9 +18,10 @@ public class User {
 	private Map<String,Double> wallet;
 	
 	/**
-	 * This JSON-generated Constructor method will ignore fields in the JSON source file other than "name" and "wallet"
-	 * @param name the name of the User associated with this wallet
-	 * @param wallet maps currency codes to monetary values
+	 * Constructs a User object from JSON data, ignoring fields other than "name" and "wallet".
+	 *
+	 * @param name the name of the user
+	 * @param wallet a map of currency codes to their respective amounts
 	 */
 	@JsonCreator
 	public User(@JsonProperty("name") String name, @JsonProperty("wallet") Map<String,Double> wallet) {
@@ -28,16 +30,18 @@ public class User {
 	}
 	
 	/**
-	 * 
-	 * @return name associated with the User
+	 * Returns the name of the User.
+	 *
+	 * @return name the name of the User
 	 */
 	public String getName() {
 		return this.name;
 	}
 	
 	/**
-	 * 
-	 * @return deep copy of the User's wallet
+	 * Returns a deep copy of the User's wallet.
+	 *
+	 * @return walletCopy a copy of the wallet containing currency codes and their amounts
 	 */
 	public Map<String,Double> getWallet() {
 		Map<String, Double> walletCopy = new HashMap<>();
@@ -48,25 +52,30 @@ public class User {
 	}
 	
 	/**
-	 * 
-	 * @param currency the code of the currency to be updated in the wallet
-	 * @param newAmount the new value to assign to the currency in the wallet
+	 * Updates the amount of a specified currency in the User's wallet.
+	 *
+	 * @param currency the code of the currency to update
+	 * @param newAmount the new amount to assign to the currency in the wallet
 	 */
 	public void updateWallet(String currency, double newAmount) {
 		this.wallet.put(currency, newAmount);
 	}
 	
 	/**
-	 * @return String representation of the User's attributes:
-	 * "name=Alice,wallet=[usd=100.0,cad=50.0,]"
+	 * Returns a string representation of the user's attributes.
+	 *
+	 * @return a string in the format "name=UserName, wallet={currencyCode:amount, ...}"
 	 */
 	@Override
 	public String toString() {
-		String walletContents = "";
+		StringBuilder walletContents = new StringBuilder();
 		for (String currency : this.wallet.keySet()) {
-			walletContents += currency + ":" + wallet.get(currency) + ",";
+			walletContents.append(currency).append(":").append(wallet.get(currency)).append(", ");
 		}
-		return "name=" + this.name + ",wallet=[" + walletContents + "]";
+		// Remove the trailing comma and space if wallet is not empty
+		if (walletContents.length() > 0) {
+			walletContents.setLength(walletContents.length() - 2);
+		}
+		return "name=" + this.name + ", wallet={" + walletContents.toString() + "}";
 	}
-	
 }
