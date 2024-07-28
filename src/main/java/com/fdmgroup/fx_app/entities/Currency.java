@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * JSON-generated class for storing currency exchange rate data
+ * Class for storing currency exchange rate data.
+ * This class is configured to ignore any unknown properties in the JSON source file.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Currency {
@@ -15,10 +16,12 @@ public class Currency {
 	private double inverseRate;
 	
 	/**
-	 * This JSON-generated Constructor method will ignore fields in the JSON source file other than "code", "rate" and "inverseRate"
-	 * @param code three-letter code associated with the currency
-	 * @param rate amount of this currency that may be purchased with USD1
-	 * @param inverseRate amount of USD that may be purchased with 1 unit of this currency
+	 * Constructs a Currency object with the specified code, rate, and inverseRate.
+	 * This constructor is annotated to map JSON properties to the corresponding fields.
+	 *
+	 * @param code the three-letter code associated with the currency
+	 * @param rate the amount of this currency that may be purchased with 1 USD
+	 * @param inverseRate the amount of USD that may be purchased with 1 unit of this currency
 	 */
 	@JsonCreator
 	public Currency(
@@ -32,35 +35,40 @@ public class Currency {
 	}
 	
 	/**
-	 * 
-	 * @return code three-letter code associated with the currency
+	 * Returns the three-letter code associated with the currency.
+	 *
+	 * @return the currency code
 	 */
 	public String getCode() {
 		return this.code;
 	}
 	
 	/**
-	 * 
-	 * @return rate amount of this currency that may be purchased with USD1
+	 * Returns the amount of this currency that may be purchased with 1 USD.
+	 *
+	 * @return the currency rate
 	 */
 	public double getRate() {
 		return this.rate;
 	}
 	
 	/**
-	 * 
-	 * @return inverseRate amount of USD that may be purchased with 1 unit of this currency
+	 * Returns the amount of USD that may be purchased with 1 unit of this currency.
+	 *
+	 * @return the inverse currency rate
 	 */
 	public double getInverseRate() {
 		return this.inverseRate;
 	}
 	
 	/**
-	 * @return String representation of the Currency's attributes in the format "code rate inverseRate":
-	 * "gbp 0.85438980693642 1.1704259482983"
+	 * Returns a string representation of the Currency's attributes in a readable format.
+	 * Format: "Currency Code: [code], Rate: [rate], Inverse Rate: [inverseRate]"
+	 *
+	 * @return a string representation of the currency
 	 */
 	@Override
 	public String toString() {
-		return this.code + " " + this.rate + " " + this.inverseRate;
+		return String.format("Currency Code: %s, Rate: %.8f, Inverse Rate: %.8f", this.code, this.rate, this.inverseRate);
 	}
 }

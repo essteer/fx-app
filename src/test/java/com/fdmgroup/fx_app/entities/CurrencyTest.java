@@ -22,7 +22,18 @@ public class CurrencyTest {
 		assertEquals(code, usd.getCode());
 		assertEquals(rate, usd.getRate());
 		assertEquals(inverseRate, usd.getInverseRate());
-		assertEquals(code + " " + rate + " " + inverseRate, usd.toString());
+	}
+	
+	@Test
+	@DisplayName("toString method produces String in expected format")
+	public void test_toString_method() {
+		String code = "usd";
+		double rate = 1.0;
+		double inverseRate = 1.0;
+		Currency usd = new Currency(code, rate, inverseRate);
+		
+		String expectedFormat = String.format("Currency Code: %s, Rate: %.8f, Inverse Rate: %.8f", code, rate, inverseRate);
+		assertEquals(expectedFormat, usd.toString());
 	}
 
 }
