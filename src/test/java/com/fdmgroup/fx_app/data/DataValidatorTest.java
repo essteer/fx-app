@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class DataValidatorTest {
 	 */
 	@BeforeAll
 	static void init() {
-		DataLoader loader = new DataLoader();
+		DataIO loader = new DataIO();
 		File usersFile = new File("./src/test/resources/users.json");
 		users = loader.loadUsers(usersFile);
 		File fxRatesFile = new File("./src/test/resources/fx_rates.json");
@@ -33,6 +34,26 @@ public class DataValidatorTest {
 		File transactionsFile = new File("./src/main/resources/transactions.txt");
 		transactions = loader.loadTransactions(transactionsFile);
 		DataSession.init(users, currencies);
+	}
+	
+	/**
+	 * Tests that empty data structures will be caught and return false
+	 */
+	@Test
+	@DisplayName("Empty data structures return false")
+	public void test_missing_data() {
+		assertFalse(DataValidator.allDataPresent(Collections.emptyMap(), currencies, transactions));
+		assertFalse(DataValidator.allDataPresent(users, Collections.emptyMap(), transactions));
+		assertFalse(DataValidator.allDataPresent(users, currencies, Collections.emptyList()));
+	}
+	
+	/**
+	 * Tests that valid data structures will return true
+	 */
+	@Test
+	@DisplayName("Non-empty data structures return true")
+	public void test_present_data() {
+		assertTrue(DataValidator.allDataPresent(users, currencies, transactions));
 	}
 	
 	/**

@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.*;
 
-import com.fdmgroup.fx_app.data.DataLoader;
+import com.fdmgroup.fx_app.data.DataIO;
 import com.fdmgroup.fx_app.data.DataSession;
 import com.fdmgroup.fx_app.entities.Currency;
 import com.fdmgroup.fx_app.entities.User;
@@ -25,7 +25,7 @@ public class TransactionProcessorTest {
 	 */
 	@BeforeAll
 	static void init() {
-        DataLoader loader = new DataLoader();
+        DataIO loader = new DataIO();
 		File usersFile = new File("./src/main/resources/users.json");
 		users = loader.loadUsers(usersFile);
 		File fxRatesFile = new File("./src/main/resources/fx_rates.json");

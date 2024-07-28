@@ -1,18 +1,20 @@
 package com.fdmgroup.fx_app.exceptions;
 
 /**
- * Exception for use in pre-validating transaction data
+ * Custom exception class for use in pre-validating transaction data.
+ * This exception is thrown when a User holds insufficient funds of a given currency to perform a transaction.
  */
 public class InsufficientFundsException extends Exception {
 
 	/**
-	 * Auto generated UID
+	 * Auto-generated UID for serialization.
 	 */
 	private static final long serialVersionUID = 7091737732659206725L;
 	
 	/**
-	 * Arises when a User holds insufficient funds of a given Currency to perform a transaction
-	 * @param message provides context for each exception
+	 * Constructs a new InsufficientFundsException with the specified detail message.
+	 *
+	 * @param message the detail message providing context for the exception
 	 */
 	public InsufficientFundsException(String message) {
         super(message);

@@ -27,7 +27,7 @@ public class DataSessionTest {
 	 */
 	@BeforeAll
 	static void init() {
-		DataLoader loader = new DataLoader();
+		DataIO loader = new DataIO();
 		File usersFile = new File("./src/test/resources/users.json");
 		users = loader.loadUsers(usersFile);
 		File fxRatesFile = new File("./src/test/resources/fx_rates.json");

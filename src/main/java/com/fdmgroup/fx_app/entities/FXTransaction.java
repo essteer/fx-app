@@ -1,7 +1,7 @@
 package com.fdmgroup.fx_app.entities;
 
 /**
- * Holds individual transaction records for further processing
+ * Represents an individual foreign exchange transaction record for further processing.
  */
 public class FXTransaction {
 	
@@ -12,8 +12,10 @@ public class FXTransaction {
 	
 	
 	/**
-	 * 
-	 * @param transactionDetails contains transaction data in String array format {"name", "fromCurrency", "toCurrency", "amount"}
+	 * Constructs an FXTransaction object with the specified transaction details.
+	 *
+	 * @param transactionDetails an array of Strings containing transaction data in the format
+	 *                           {@code {"name", "fromCurrency", "toCurrency", "amount"}}
 	 */
 	public FXTransaction(String[] transactionDetails) {
 		this.name = transactionDetails[0];
@@ -23,32 +25,36 @@ public class FXTransaction {
 	}
 
 	/**
-	 * 
-	 * @return name associated with the transaction, which may or may not be a valid User name
+	 * Returns the name associated with the transaction. This name may or may not correspond to a valid User name.
+	 *
+	 * @return name the name associated with the transaction
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * 
-	 * @return fromCurrency three-letter code for the currency to be converted from
+	 * Returns the three-letter code for the currency to be converted from.
+	 *
+	 * @return fromCurrency the three-letter code for the fromCurrency
 	 */
 	public String getFromCurrency() {
 		return fromCurrency;
 	}
 
 	/**
-	 * 
-	 * @return toCurrency three-letter code for the currency to be converted to
+	 * Returns the three-letter code for the currency to be converted to.
+	 *
+	 * @return toCurrency the three-letter code for the toCurrency
 	 */
 	public String getToCurrency() {
 		return toCurrency;
 	}
 
 	/**
-	 * 
-	 * @return amount the intended amount of fromCurrency to convert to toCurrency
+	 * Returns the intended amount of fromCurrency to be converted to toCurrency.
+	 *
+	 * @return amount the amount of fromCurrency to be converted
 	 */
 	public double getAmount() {
 		return amount;

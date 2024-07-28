@@ -1,21 +1,22 @@
 package com.fdmgroup.fx_app.exceptions;
 
 /**
- * Exception for @see DataSession class
+ * Custom exception class for errors related to the {@link DataSession} class.
+ * This exception is thrown when there is an attempt to access a DataSession instance prior to its initialization.
  */
 public class DataSessionException extends RuntimeException {
 	
 	/**
-	 * Auto generated UID
+	 * Auto-generated UID for serialization.
 	 */
 	private static final long serialVersionUID = 2025372730739616414L;
 
 	/**
-	 * Arises following an attempt to access a DataSession instance prior to initialisation
-	 * @param message provides context for each exception
+	 * Constructs a new DataSessionException with the specified detail message.
+	 *
+	 * @param message the detail message providing context for the exception
 	 */
 	public DataSessionException(String message) {
         super(message);
     }
-
 }

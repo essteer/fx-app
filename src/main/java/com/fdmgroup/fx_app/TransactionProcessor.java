@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import java.util.Map;
 
 /**
- * Validates and processes individual transactions
+ * Validates and processes individual transactions.
  */
 public class TransactionProcessor {
 
@@ -19,8 +19,9 @@ public class TransactionProcessor {
 	private static Converter converter = new Converter();
 
 	/**
-	 * Public method of the class, initiates the process of validating a transaction; once validated it passes the transaction data on to update User data.
-	 * @param transaction a String representing an individual transaction, e.g., "Bob usd hkd 100"
+	 * Initiates the process of validating a transaction. If valid, it updates the associated User's data.
+	 * 
+	 * @param transaction a String representing an individual transaction, e.g., {@code "Bob usd hkd 100"}.
 	 */
 	public void executeTransaction(String transaction) {
 		try {
@@ -43,10 +44,11 @@ public class TransactionProcessor {
 	}
 
 	/**
-	 * Helper method to pass transaction data to DataValidator for validation
+	 * Validates the transaction details using {@link DataValidator}.
+	 * 
 	 * @param transaction the original transaction to be validated
-	 * @param fxTrade the transaction in FXTransaction class form
-	 * @return boolean whether the transaction details are all valid
+	 * @param fxTrade the transaction in {@link FXTransaction} form
+	 * @return boolean {@code true} if all transaction details are all valid, otherwise {@code false}
 	 */
 	private boolean validTransaction(String transaction, FXTransaction fxTrade) {
 		if (!(DataValidator.validTransactionDetails(fxTrade))) {
@@ -57,10 +59,11 @@ public class TransactionProcessor {
 	}
 
 	/**
-	 * Helper method to pass transaction data to DataValidator for validation
+	 * Validates if the User associated with the transaction has sufficient funds.
+	 * 
 	 * @param transaction the original transaction to be validated
-	 * @param fxTrade the transaction in FXTransaction class form
-	 * @return boolean whether the User associated with the transaction has sufficient funds to perform it
+	 * @param fxTrade the transaction in {@link FXTransaction} form
+	 * @return boolean {@code true} if the User has sufficient funds to perform the transaction, otherwise {@code false}
 	 */
 	private boolean validUserFunds(String transaction, FXTransaction fxTrade) {
 		if (!(DataValidator.sufficientUserFunds(fxTrade))) {
@@ -71,8 +74,9 @@ public class TransactionProcessor {
 	}
 
 	/**
-	 * Private helper method to execute a transaction once it has been validated and the associated User confirmed to hold sufficient funds
-	 * @param fxTrade the transaction to be executed in FXTransaction class form
+	 * Executes a transaction once it has been validated and the associated User confirmed to hold sufficient funds.
+	 * 
+	 * @param fxTrade the transaction to be executed in {@link FXTransaction} form
 	 */
 	private void execute(FXTransaction fxTrade) {
 

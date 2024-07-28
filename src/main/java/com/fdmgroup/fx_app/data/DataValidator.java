@@ -1,5 +1,6 @@
 package com.fdmgroup.fx_app.data;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,26 +14,53 @@ import com.fdmgroup.fx_app.exceptions.InvalidCurrencyException;
 import com.fdmgroup.fx_app.exceptions.UserNotFoundException;
 
 /**
- * Utility class for use in validating data received from external sources
+ * Utility class for validating data received from external sources.
  */
 public class DataValidator {
 	
 	private static Logger logger = LogManager.getLogger();
 	
 	/**
+	 * Checks whether essential data is present before proceeding with data processing.
+	 * 
+	 * @param users Map of String names to User objects
+	 * @param currencies Map of String currency codes to Currency objects
+	 * @param transactions List of String objects representing transactions
+	 * @return boolean {@code false} if any of the arguments are empty, otherwise {@code true}
+	 */
+	public static boolean allDataPresent(Map<String,User> users, Map<String,Currency> currencies, List<String> transactions) {
+		
+		if (users.isEmpty() || currencies.isEmpty() || transactions.isEmpty()) {
+			if (users.isEmpty()) {
+				logger.fatal("No USER data found - aborting");
+			}
+			if (currencies.isEmpty()) {
+				logger.fatal("No CURRENCY data found - aborting");
+			}
+			if (transactions.isEmpty()) {
+				logger.fatal("No TRANSACTION data found - aborting");
+			}
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Validates details for a single transaction by verifying that:
-	 * <ol>
-	 * <li>Target User exists</li>
-	 * <li>FROM and TO currencies exist</li>
-	 * <li>FROM and TO currencies differ</li>
-	 * <li>Transaction amount is positive (>0)</li>
-	 * </ol>
-	 * If a check fails, subsequent checks will still complete so that all arguments can be validated for log purposes.
-	 * Note that these checks are independent of a user's ability to perform the transaction - @see {sufficientUserFunds}.
+	 * <ul>
+	 *   <li>Target User exists</li>
+	 *   <li>FROM and TO currencies exist</li>
+	 *   <li>FROM and TO currencies differ</li>
+	 *   <li>Transaction amount is positive (&gt;0)</li>
+	 * </ul>
+	 * If a single check fails, subsequent checks will still complete so that all arguments 
+	 * can be validated for logging purposes. Note that these checks are independent of a 
+	 * User's ability to perform the transaction. See {@link #sufficientUserFunds(FXTransaction)}.
+	 * 
 	 * @param fxTrade the FXTransaction object containing the relevant transaction data
-	 * @return boolean true for valid transactions otherwise false <br>
-	 * {@link InvalidCurrencyException} <br>
-	 * {@link UserNotFoundException}
+	 * @return boolean {@code true} for valid transactions, otherwise {@code false}
+	 * @see InvalidCurrencyException
+	 * @see UserNotFoundException
 	 */
 	public static boolean validTransactionDetails(FXTransaction fxTrade) {
 		boolean validDetails = true;
@@ -63,9 +91,10 @@ public class DataValidator {
 	}
 	
 	/**
-	 * Checks whether a name is contained in the DataSession Map of User objects
+	 * Checks whether a name is contained in the DataSession Map of User objects.
+	 * 
 	 * @param name the name to access the User object by
-	 * @return boolean whether the name relates to a valid User objects
+	 * @return boolean {@code true} for valid User names, otherwise {@code false}
 	 */
 	private static boolean validUserName(String name) {
 		Map<String,User> users = DataSession.getAllUsers();
@@ -78,9 +107,11 @@ public class DataValidator {
 	}
 	
 	/**
-	 * Checks whether a currency code is associated with a Currency object contained in the DataSession Map of Currency objects
+	 * Checks whether a currency code is associated with a Currency object contained in 
+	 * the DataSession Map of Currency objects.
+	 * 
 	 * @param currency the three-letter code to access the Currency object by
-	 * @return boolean whether the currency code relates to a valid Currency object
+	 * @return boolean {@code true} for valid Currency codes, otherwise {@code false}
 	 */
 	private static boolean validCurrencyCode(String currency) {
 		Map<String,Currency> currencies = DataSession.getCurrencies();
@@ -92,6 +123,12 @@ public class DataValidator {
 		return false;
 	}
 	
+	/**
+	 * Validates the transaction amount to ensure it is positive.
+	 * 
+	 * @param amount the transaction amount to be validated
+	 * @return boolean {@code true} for valid transaction amounts, otherwise {@code false}
+	 */
 	private static boolean validateTransactionValue(double amount) {
 		try {
 			return (amount > 0);
@@ -102,14 +139,16 @@ public class DataValidator {
 	
 	/**
 	 * Validates that a User is able to support a transaction, for a transaction
-	 * for which the details have already been validated @see {validTransactionDetails}. Checks that:
-	 * <ol>
-	 * <li>User holds the currency to be converted FROM</li>
-	 * <li>User holds enough of the FROM currency to support the transaction amount</li>
-	 * </ol>
+	 * for which the details have already been validated. See {@link #validTransactionDetails(FXTransaction)}. 
+	 * Checks that:
+	 * <ul>
+	 *   <li>User holds the currency to be converted FROM</li>
+	 *   <li>User holds enough of the FROM currency to support the transaction amount</li>
+	 * </ul>
+	 * 
 	 * @param fxTrade the FXTransaction object containing the relevant transaction data
-	 * @return boolean whether the User associated with the transaction has sufficient funds <br>
-	 * {@link InsufficientFundsException}
+	 * @return {@code true} if the User has sufficient funds, otherwise {@code false}
+	 * @see InsufficientFundsException
 	 */
 	public static boolean sufficientUserFunds(FXTransaction fxTrade) {
 		String userName = fxTrade.getName();
