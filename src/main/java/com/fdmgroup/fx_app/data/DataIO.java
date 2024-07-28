@@ -22,27 +22,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Utility class for use in loading and saving data files
+ * Utility class for loading and saving data files.
  */
-public class DataLoader {
+public class DataIO {
 	
     private static Logger logger;
 	private ObjectMapper mapper;
 
 	/**
-	 * DataLoader initialises with Logger and ObjectMapper attributes
+	 * Initialises with Logger and ObjectMapper attributes.
 	 */
-	public DataLoader() {
+	public DataIO() {
 		logger = LogManager.getLogger();
 		this.mapper = new ObjectMapper();
 	}
 	
 	/**
-	 * Loads a List of User data from the JSON @param file then passes this to {@link createUserMap} to transform into a map of names to User objects
-	 * @param file to load User data from
-	 * @return Map of String to User objects representing User data loaded from @param file. 
-	 * Defaults to an empty Map if data cannot be loaded.
-	 * {@link createUserMap}
+	 * Loads a list of User data from the specified JSON file, transforms it into a Map of String names to User objects, and returns the Map.
+	 *
+	 * @param file the file to load User data from
+	 * @return userMap a map of String to User objects representing the User data loaded from the file. 
+	 *         Defaults to an empty map if data cannot be loaded.
 	 */
 	public Map<String,User> loadUsers(File file) {
 		try {
@@ -61,10 +61,10 @@ public class DataLoader {
 	}
 	
 	/**
-	 * Receives a List of User data from {@link loadUsers} and transforms this into a map of names to User objects, which is returned to {@link loadUsers}
-	 * @param userList User data received from {@link loadUsers}
-	 * @return userMap Map of names to User data
-	 * {@link loadUsers}
+	 * Transforms a List of User data into a map of String names to User objects.
+	 *
+	 * @param userList the list of User data to be transformed
+	 * @return userMap a Map of String names to User objects
 	 */
 	private Map<String,User> createUserMap(List<User> userList) {
 		Map<String,User> userMap = new HashMap<>();
@@ -75,10 +75,11 @@ public class DataLoader {
 	}
 
 	/**
-	 * Loads and returns a Map of Currency data from the JSON @param file
-	 * @param file to load Currency data from
-	 * @return Map of String to Currency object pairs representing Currency data loaded from @param file. 
-	 * Defaults to an empty Map if data cannot be loaded.
+	 * Loads and returns a Map of Currency data from the specified JSON file.
+	 *
+	 * @param file the file to load Currency data from
+	 * @return currencyMap a Map of String to Currency objects representing the Currency data loaded from the file. 
+	 *         Defaults to an empty Map if data cannot be loaded.
 	 */
 	public Map<String,Currency> loadCurrencies(File file) {
 		try {
@@ -95,9 +96,10 @@ public class DataLoader {
 	}
 	
 	/**
-	 * Loads transaction data from the source .txt @param file, and passes each line as a separate String to the output file
-	 * @param file to load transaction data from
-	 * @return lines List of String objects representing transaction data
+	 * Loads transaction data from the specified text file and returns each line as a separate String in a List.
+	 *
+	 * @param file the file to load transaction data from
+	 * @return lines a List of String objects representing the transaction data
 	 */
 	public List<String> loadTransactions(File file) {
 		List<String> lines = new ArrayList<>();
@@ -130,8 +132,9 @@ public class DataLoader {
 	}
 	
 	/**
-	 * Receives an File object and saves it to a JSON file with indentation
-	 * @param file to be saved in JSON format
+	 * Saves User data to a JSON file with indentation.
+	 *
+	 * @param file the file to save updated User data to
 	 */
 	public void saveUserData(File file) {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);

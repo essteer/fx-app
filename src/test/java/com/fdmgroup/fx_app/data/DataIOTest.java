@@ -9,16 +9,16 @@ import java.util.Collections;
 /**
  * Unit tests for the DataLoader class
  */
-public class DataLoaderTest {
+public class DataIOTest {
 	
-	static DataLoader dataLoader;
+	static DataIO dataLoader;
 	
 	/**
 	 * Initialise the class prior to all tests in this class
 	 */
 	@BeforeAll
 	static void init() {
-		dataLoader = new DataLoader();
+		dataLoader = new DataIO();
 	}
 	
 	/**
