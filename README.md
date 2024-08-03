@@ -1,13 +1,6 @@
-```yaml
-name: Elliott Steer
-date: 28 July 2024
-```
+# FX App
 
-# Currency Conversion App - Assessment 3
-
-## Overview
-
-This application provides functionality for converting between different currencies. It supports transactions that involve converting amounts from one currency to another, validating transaction data, and maintaining user wallets. The app ensures that users have sufficient funds before processing transactions and logs all relevant operations.
+This app provides functionality for converting between different currencies. It supports transactions that involve conversions, transaction data validation, and user wallet maintenance. The app ensures that users have sufficient funds before processing transactions and logs all relevant operations.
 
 ## Features
 
