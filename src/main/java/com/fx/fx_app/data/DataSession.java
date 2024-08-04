@@ -1,8 +1,8 @@
-package com.fdmgroup.fx_app.data;
+package com.fx.fx_app.data;
 
-import com.fdmgroup.fx_app.entities.Currency;
-import com.fdmgroup.fx_app.entities.User;
-import com.fdmgroup.fx_app.exceptions.DataSessionException;
+import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.entities.User;
+import com.fx.fx_app.exceptions.DataSessionException;
 
 import java.util.HashMap;
 import java.util.Map;

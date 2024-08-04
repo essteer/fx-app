@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app.data;
+package com.fx.fx_app.data;
 
 import java.util.List;
 import java.util.Map;
@@ -6,12 +6,12 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fdmgroup.fx_app.entities.Currency;
-import com.fdmgroup.fx_app.entities.FXTransaction;
-import com.fdmgroup.fx_app.entities.User;
-import com.fdmgroup.fx_app.exceptions.InsufficientFundsException;
-import com.fdmgroup.fx_app.exceptions.InvalidCurrencyException;
-import com.fdmgroup.fx_app.exceptions.UserNotFoundException;
+import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.entities.FXTransaction;
+import com.fx.fx_app.entities.User;
+import com.fx.fx_app.exceptions.InsufficientFundsException;
+import com.fx.fx_app.exceptions.InvalidCurrencyException;
+import com.fx.fx_app.exceptions.UserNotFoundException;
 
 /**
  * Utility class for validating data received from external sources.

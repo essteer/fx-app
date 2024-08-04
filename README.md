@@ -36,11 +36,9 @@ This app provides functionality for converting between different currencies. It 
 To clone this repo, open the terminal on your machine and run the following command from within the desired workspace:
 
 ```console
-$ git clone https://git.fdmgroup.com/elliott.steer/assessment-3-elliott.git
+$ git clone git@github.com:essteer/fx-app
 ```
-
-Import the cloned repo into the Eclipse IDE as a Maven project.
 
 ## Documentation
 
-For detailed information on the classes and methods provided by the application, please refer to the Javadocs documentation. The Javadocs provide comprehensive details on the functionality and use of each component within the app.
+For detailed information on the classes and methods provided by the application, please refer to the Javadocs. The Javadocs provide comprehensive details on the functionality and use of each component within the app.

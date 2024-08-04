@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app.data;
+package com.fx.fx_app.data;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
@@ -6,9 +6,9 @@ import org.junit.jupiter.api.*;
 import java.io.File;
 import java.util.Map;
 
-import com.fdmgroup.fx_app.entities.Currency;
-import com.fdmgroup.fx_app.entities.User;
-import com.fdmgroup.fx_app.exceptions.DataSessionException;
+import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.entities.User;
+import com.fx.fx_app.exceptions.DataSessionException;
 
 /**
  * Unit tests for the DataSession class.

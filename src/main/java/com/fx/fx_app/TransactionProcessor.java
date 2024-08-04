@@ -1,9 +1,9 @@
-package com.fdmgroup.fx_app;
+package com.fx.fx_app;
 
-import com.fdmgroup.fx_app.data.DataSession;
-import com.fdmgroup.fx_app.data.DataValidator;
-import com.fdmgroup.fx_app.entities.FXTransaction;
-import com.fdmgroup.fx_app.entities.User;
+import com.fx.fx_app.data.DataSession;
+import com.fx.fx_app.data.DataValidator;
+import com.fx.fx_app.entities.FXTransaction;
+import com.fx.fx_app.entities.User;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;

@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app.data;
+package com.fx.fx_app.data;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,8 +15,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fdmgroup.fx_app.entities.Currency;
-import com.fdmgroup.fx_app.entities.User;
+import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.entities.User;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

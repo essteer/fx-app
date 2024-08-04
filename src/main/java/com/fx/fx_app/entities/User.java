@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app.entities;
+package com.fx.fx_app.entities;
 
 import java.util.HashMap;
 import java.util.Map;

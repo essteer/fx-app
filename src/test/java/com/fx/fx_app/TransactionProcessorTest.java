@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app;
+package com.fx.fx_app;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,10 +7,10 @@ import java.util.Map;
 
 import org.junit.jupiter.api.*;
 
-import com.fdmgroup.fx_app.data.DataIO;
-import com.fdmgroup.fx_app.data.DataSession;
-import com.fdmgroup.fx_app.entities.Currency;
-import com.fdmgroup.fx_app.entities.User;
+import com.fx.fx_app.data.DataIO;
+import com.fx.fx_app.data.DataSession;
+import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.entities.User;
 
 /**
  * Unit tests for the TransactionProcessor class

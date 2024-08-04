@@ -1,12 +1,12 @@
-package com.fdmgroup.fx_app;
+package com.fx.fx_app;
 
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fdmgroup.fx_app.data.DataSession;
-import com.fdmgroup.fx_app.entities.Currency;
+import com.fx.fx_app.data.DataSession;
+import com.fx.fx_app.entities.Currency;
 
 /**
  * Utility class to convert between two currencies.

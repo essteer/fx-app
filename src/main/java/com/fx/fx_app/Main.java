@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app;
+package com.fx.fx_app;
 
 import java.io.File;
 import java.util.List;
@@ -7,12 +7,12 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fdmgroup.fx_app.data.DataIO;
-import com.fdmgroup.fx_app.data.DataSession;
-import com.fdmgroup.fx_app.data.DataValidator;
-import com.fdmgroup.fx_app.entities.Currency;
-import com.fdmgroup.fx_app.entities.User;
-import com.fdmgroup.fx_app.exceptions.DataSessionException;
+import com.fx.fx_app.data.DataIO;
+import com.fx.fx_app.data.DataSession;
+import com.fx.fx_app.data.DataValidator;
+import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.entities.User;
+import com.fx.fx_app.exceptions.DataSessionException;
 
 /**
  * @author Elliott Steer

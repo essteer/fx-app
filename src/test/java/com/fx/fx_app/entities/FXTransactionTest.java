@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app.entities;
+package com.fx.fx_app.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;

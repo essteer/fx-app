@@ -1,6 +1,6 @@
-package com.fdmgroup.fx_app.exceptions;
+package com.fx.fx_app.exceptions;
 
-import com.fdmgroup.fx_app.data.DataSession;
+import com.fx.fx_app.data.DataSession;
 
 /**
  * Custom exception class for errors related to the {@link DataSession} class.

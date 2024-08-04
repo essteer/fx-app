@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app.entities;
+package com.fx.fx_app.entities;
 
 /**
  * Represents an individual foreign exchange transaction record for further processing.

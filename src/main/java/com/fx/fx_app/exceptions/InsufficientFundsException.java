@@ -1,4 +1,4 @@
-package com.fdmgroup.fx_app.exceptions;
+package com.fx.fx_app.exceptions;
 
 /**
  * Custom exception class for use in pre-validating transaction data.
