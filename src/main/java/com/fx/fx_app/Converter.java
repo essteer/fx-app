@@ -1,12 +1,15 @@
 package com.fx.fx_app;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fx.fx_app.data.ConfigLoader;
 import com.fx.fx_app.data.DataSession;
 import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.exceptions.ConfigSettingException;
 
 /**
  * Utility class to convert between two currencies.
@@ -16,12 +19,22 @@ public class Converter {
 	
 	private Logger logger = LogManager.getLogger();
 	private Map<String,Currency> currencies;
+	private String baseCurrency;
 	
 	/**
      * Public constructor that initializes the converter with currency data from {@link DataSession}.
      */
 	public Converter() {
 		this.currencies = DataSession.getCurrencies();
+		try {
+			this.baseCurrency = ConfigLoader.getProperty("base.currency");
+		} catch (ConfigSettingException e) {
+			logger.fatal(e.getMessage());
+			System.exit(1);
+		} catch (IOException | NullPointerException e) {
+			logger.fatal("Config file 'src/main/resources/config.properties' not found: " + e.getMessage());
+			System.exit(1);
+		}
 	}
 	
 	/**
@@ -33,48 +46,48 @@ public class Converter {
      * @return the equivalent amount in the target currency
      */
 	public double convert(String fromCurrency, String toCurrency, double amountToConvert) {
-		double amountInUSD = convertToUSD(fromCurrency, amountToConvert);
-		double amountInTargetCurrency = convertToTargetCurrency(toCurrency, amountInUSD);
+		double amountInBaseCurrency = convertToBaseCurrency(fromCurrency, amountToConvert);
+		double amountInTargetCurrency = convertToTargetCurrency(toCurrency, amountInBaseCurrency);
 		
 		return amountInTargetCurrency;
 	}
 	
 	/**
-     * Converts an amount from the given currency to USD. If the given currency is already USD, it returns the amount unchanged.
+     * Converts an amount from the given currency to the base currency. If the given currency is already the base currency, it returns the amount unchanged.
      * 
      * @param currency the currency code to convert from
      * @param amount the amount to convert
-     * @return amountInUSD the equivalent amount in USD
+     * @return amountInBaseCurrency the equivalent amount in the base currency
      */
-	private double convertToUSD(String currency, double amount) {
-		if (currency.equals("usd")) {
-			logger.trace("Currency already usd - no conversion");
+	private double convertToBaseCurrency(String currency, double amount) {
+		if (currency.equals(this.baseCurrency)) {
+			logger.trace("Currency already in {} - no conversion", this.baseCurrency.toUpperCase());
 			return amount;
 		}
 		Currency currency_record = this.currencies.get(currency);
 		double inverseRate = currency_record.getInverseRate();
-		double amountInUSD = inverseRate * amount;
-		logger.trace("Converted {}{} to USD{} @ rate {}", currency.toUpperCase(), amount, amountInUSD, inverseRate);
+		double amountInBaseCurrency = inverseRate * amount;
+		logger.trace("Converted {}{} to {}{} @ rate {}", currency.toUpperCase(), amount, this.baseCurrency, amountInBaseCurrency, inverseRate);
 		
-		return amountInUSD;
+		return amountInBaseCurrency;
 	}
 	
 	/**
-     * Converts an amount from USD to the target currency. If the target currency is also USD, it returns the amount unchanged.
+     * Converts an amount from the base currency to the target currency. If the target currency is also the base currency, it returns the amount unchanged.
      * 
      * @param currency the currency code to convert to
-     * @param amount the amount in USD to convert
+     * @param amount the amount in the base currency to convert
      * @return amountInTargetCurrency the equivalent amount in the target currency
      */
 	private double convertToTargetCurrency(String currency, double amount) {
-		if (currency.equals("usd")) {
-			logger.trace("Currency already usd - no conversion");
+		if (currency.equals(this.baseCurrency)) {
+			logger.trace("Currency already in {} - no conversion", this.baseCurrency.toUpperCase());
 			return amount;
 		}
 		Currency currency_record = this.currencies.get(currency);
 		double rate = currency_record.getRate();
 		double amountInTargetCurrency = rate * amount;
-		logger.trace("Converted USD{} to {}{} @ rate {}", amount, currency.toUpperCase(), amountInTargetCurrency, rate);
+		logger.trace("Converted {}}{} to {}{} @ rate {}", this.baseCurrency, amount, currency.toUpperCase(), amountInTargetCurrency, rate);
 		
 		return amountInTargetCurrency;
 	}
