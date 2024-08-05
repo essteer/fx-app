@@ -16,6 +16,7 @@ import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.User;
 import com.fx.fx_app.exceptions.ConfigSettingException;
 import com.fx.fx_app.exceptions.DataSessionException;
+import com.fx.fx_app.exceptions.DataSourceException;
 
 /**
  * @author Elliott Steer
@@ -73,22 +74,27 @@ public class Main {
 		File transactionsFile = new File(transactionsFilePath);
 		List<String> transactions = loader.loadTransactions(transactionsFile);
 
-		if (DataValidator.allDataPresent(users, currencies, transactions)) {
-			try {
-				DataSession.init(users, currencies);
-				logger.info("Data load successful");
-			} catch (DataSessionException e) {
-				logger.fatal("Data load FAILURE - aborting");
-				return;
-			}
-
-			TransactionProcessor transactionProcessor = new TransactionProcessor();
-			for (String transaction : transactions) {
-				transactionProcessor.executeTransaction(transaction);
-			}
-
-			File newUsersFile = new File("./src/main/resources/users_updated.json");
-			loader.saveUserData(newUsersFile);
+		try {
+			DataValidator.allDataPresent(users, currencies, transactions);
+		} catch (DataSourceException e) {
+			logger.fatal(e.getMessage());
+			System.exit(1);
 		}
+
+		try {
+			DataSession.init(users, currencies);
+			logger.info("Data load successful");
+		} catch (DataSessionException e) {
+			logger.fatal("Data load FAILURE - aborting");
+			return;
+		}
+
+		TransactionProcessor transactionProcessor = new TransactionProcessor();
+		for (String transaction : transactions) {
+			transactionProcessor.executeTransaction(transaction);
+		}
+
+		File newUsersFile = new File("./src/main/resources/users_updated.json");
+		loader.saveUserData(newUsersFile);
 	}
 }

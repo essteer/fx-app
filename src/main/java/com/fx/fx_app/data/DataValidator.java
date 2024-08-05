@@ -1,5 +1,6 @@
 package com.fx.fx_app.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.FXTransaction;
 import com.fx.fx_app.entities.User;
+import com.fx.fx_app.exceptions.DataSourceException;
 import com.fx.fx_app.exceptions.InsufficientFundsException;
 import com.fx.fx_app.exceptions.InvalidCurrencyException;
 import com.fx.fx_app.exceptions.UserNotFoundException;
@@ -28,19 +30,25 @@ public class DataValidator {
 	 * @param transactions List of String objects representing transactions
 	 * @return boolean {@code false} if any of the arguments are empty, otherwise {@code true}
 	 */
-	public static boolean allDataPresent(Map<String,User> users, Map<String,Currency> currencies, List<String> transactions) {
+	public static boolean allDataPresent(Map<String,User> users, Map<String,Currency> currencies, List<String> transactions) throws DataSourceException {
 		
-		if (users.isEmpty() || currencies.isEmpty() || transactions.isEmpty()) {
-			if (users.isEmpty()) {
-				logger.fatal("No USER data found - aborting");
-			}
+		if (currencies.isEmpty() || transactions.isEmpty() || users.isEmpty()) {
+			
+			List<String> missingData = new ArrayList<>();
+			
 			if (currencies.isEmpty()) {
-				logger.fatal("No CURRENCY data found - aborting");
+				missingData.add("CURRENCY");
+				logger.fatal("No CURRENCY data found");
 			}
 			if (transactions.isEmpty()) {
-				logger.fatal("No TRANSACTION data found - aborting");
+				missingData.add("TRANSACTION");
+				logger.fatal("No TRANSACTION data found");
 			}
-			return false;
+			if (users.isEmpty()) {
+				missingData.add("USER");
+				logger.fatal("No USER data found");
+			}
+			throw new DataSourceException("Missing data: " + missingData.toString() + " - check data source");
 		}
 		return true;
 	}

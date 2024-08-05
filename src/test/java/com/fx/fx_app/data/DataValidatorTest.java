@@ -11,6 +11,7 @@ import java.util.Map;
 import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.FXTransaction;
 import com.fx.fx_app.entities.User;
+import com.fx.fx_app.exceptions.DataSourceException;
 
 /**
  * Unit tests for the DataValidator class.
@@ -42,9 +43,9 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Empty data structures return false")
 	public void test_missing_data() {
-		assertFalse(DataValidator.allDataPresent(Collections.emptyMap(), currencies, transactions));
-		assertFalse(DataValidator.allDataPresent(users, Collections.emptyMap(), transactions));
-		assertFalse(DataValidator.allDataPresent(users, currencies, Collections.emptyList()));
+		assertThrows(DataSourceException.class, () -> DataValidator.allDataPresent(Collections.emptyMap(), currencies, transactions));
+		assertThrows(DataSourceException.class, () -> DataValidator.allDataPresent(users, Collections.emptyMap(), transactions));
+		assertThrows(DataSourceException.class, () -> DataValidator.allDataPresent(users, currencies, Collections.emptyList()));
 	}
 	
 	/**
@@ -53,7 +54,11 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Non-empty data structures return true")
 	public void test_present_data() {
-		assertTrue(DataValidator.allDataPresent(users, currencies, transactions));
+		try {
+			assertTrue(DataValidator.allDataPresent(users, currencies, transactions));
+		} catch (DataSourceException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
