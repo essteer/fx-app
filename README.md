@@ -41,4 +41,4 @@ $ git clone git@github.com:essteer/fx-app
 
 ## Documentation
 
-For detailed information on the classes and methods provided by the application, please refer to the Javadocs. The Javadocs provide comprehensive details on the functionality and use of each component within the app.
+Refer to the Javadocs for detailed information on the classes and methods provided by the application.
