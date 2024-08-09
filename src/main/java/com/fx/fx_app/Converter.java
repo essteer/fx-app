@@ -1,15 +1,13 @@
 package com.fx.fx_app;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fx.fx_app.data.ConfigLoader;
 import com.fx.fx_app.data.DataSession;
+import com.fx.fx_app.entities.BaseCurrency;
 import com.fx.fx_app.entities.Currency;
-import com.fx.fx_app.exceptions.ConfigSettingException;
 
 /**
  * Utility class to convert between two currencies.
@@ -26,15 +24,7 @@ public class Converter {
      */
 	public Converter() {
 		this.currencies = DataSession.getCurrencies();
-		try {
-			this.baseCurrency = ConfigLoader.getProperty("base.currency");
-		} catch (ConfigSettingException e) {
-			logger.fatal(e.getMessage());
-			System.exit(1);
-		} catch (IOException | NullPointerException e) {
-			logger.fatal("Config file 'src/main/resources/config.properties' not found: " + e.getMessage());
-			System.exit(1);
-		}
+		this.baseCurrency = new BaseCurrency().getBaseCurrency();
 	}
 	
 	/**

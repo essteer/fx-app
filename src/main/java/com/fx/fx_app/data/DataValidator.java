@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fx.fx_app.entities.BaseCurrency;
 import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.FXTransaction;
 import com.fx.fx_app.entities.User;
@@ -21,7 +22,8 @@ import com.fx.fx_app.exceptions.UserNotFoundException;
 public class DataValidator {
 	
 	private static Logger logger = LogManager.getLogger();
-	
+	private static String baseCurrency = new BaseCurrency().getBaseCurrency();
+
 	/**
 	 * Checks whether essential data is present before proceeding with data processing.
 	 * 
@@ -88,7 +90,7 @@ public class DataValidator {
 			validDetails = false;
 		}
 		if (fxTrade.getFromCurrency().equals(fxTrade.getToCurrency())) {
-			logger.warn("FROM and TO currencies match");
+			logger.info("FROM and TO currencies match");
 			validDetails = false;
 		}
 		if (!(validateTransactionValue(fxTrade.getAmount())) ) {
@@ -122,8 +124,10 @@ public class DataValidator {
 	 * @return boolean {@code true} for valid Currency codes, otherwise {@code false}
 	 */
 	private static boolean validCurrencyCode(String currency) {
+
 		Map<String,Currency> currencies = DataSession.getCurrencies();
-		if (currency.equals("usd") || currencies.containsKey(currency)) {
+		
+		if (currency.equals(baseCurrency) || currencies.containsKey(currency)) {
 			logger.debug("Currency code '{}' OK", currency);
 			return true;
 		}
@@ -180,6 +184,5 @@ public class DataValidator {
 		}
 		return true;
 	}
-	
 
 }
