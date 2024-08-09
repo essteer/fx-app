@@ -14,7 +14,7 @@ public class FXTransactionTest {
 	@Test
 	@DisplayName("FXTransaction initialises")
 	public void test_FXTransaction_initialisation() {
-		assertDoesNotThrow(() ->  new FXTransaction(new String[]{"Bob", "cad", "usd", "100"}));
+		assertDoesNotThrow(() ->  new FXTransaction(new String[]{"Bob", "cad", "usd", "100"}, "/file/path line=1"));
 	}
 	
 	/**
@@ -23,7 +23,7 @@ public class FXTransactionTest {
 	@Test
 	@DisplayName("FXTransaction has expected attributes")
 	public void test_FXTransaction_attributes() {
-		FXTransaction fxTrade = new FXTransaction(new String[]{"Bob", "cad", "usd", "100"});
+		FXTransaction fxTrade = new FXTransaction(new String[]{"Bob", "cad", "usd", "100"}, "/file/path line=1");
 		assertEquals("Bob", fxTrade.getName());
 		assertEquals("cad", fxTrade.getFromCurrency());
 		assertEquals("usd", fxTrade.getToCurrency());
@@ -36,7 +36,7 @@ public class FXTransactionTest {
 	@Test
 	@DisplayName("FXTransaction initialises with correct attributes")
 	public void test_FXTransaction_with_invalid_amount() {
-		assertThrows(NumberFormatException.class, () ->  new FXTransaction(new String[]{"Bob", "cad", "usd", "xxx"}));
+		assertThrows(NumberFormatException.class, () ->  new FXTransaction(new String[]{"Bob", "cad", "usd", "xxx"}, "/file/path line=1"));
 	}
 
 }

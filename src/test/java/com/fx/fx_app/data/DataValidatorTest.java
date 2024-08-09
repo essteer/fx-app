@@ -67,7 +67,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Transaction with correct number of elements return true")
 	public void test_valid_transactionDetails_length() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "usd", "100"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "usd", "100"}, "/file/path line=1");
 		assertTrue(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
@@ -77,7 +77,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Transaction with invalid User returns false")
 	public void test_invalid_User() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Xxx", "cad", "usd", "100"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Xxx", "cad", "usd", "100"}, "/file/path line=1");
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
@@ -87,7 +87,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Transaction with invalid FROM currency returns false")
 	public void test_invalid_FROM_currency() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "xxx", "usd", "100"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "xxx", "usd", "100"}, "/file/path line=1");
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
@@ -97,7 +97,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Transaction with invalid TO currency returns false")
 	public void test_invalid_TO_currency() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "xxx", "100"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "xxx", "100"}, "/file/path line=1");
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
@@ -107,7 +107,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Transaction with matching FROM and TO currency returns false")
 	public void test_matching_currency() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "cad", "100"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "cad", "100"}, "/file/path line=1");
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
@@ -117,7 +117,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("Transaction with invalid transaction amount returns false")
 	public void test_invalid_amount() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "usd", "-100"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "usd", "-100"}, "/file/path line=1");
 		assertFalse(DataValidator.validTransactionDetails(fxTrade));
 	}
 	
@@ -127,7 +127,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("User missing FROM currency returns false")
 	public void test_User_missing_FROM_currency() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "gbp", "usd", "100"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "gbp", "usd", "100"}, "/file/path line=1");
 		assertFalse(DataValidator.sufficientUserFunds(fxTrade));
 	}
 	
@@ -137,7 +137,7 @@ public class DataValidatorTest {
 	@Test
 	@DisplayName("User with insufficient FROM currency returns false")
 	public void test_User_insufficient_FROM_currency() {
-		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "usd", "10000000"});
+		FXTransaction fxTrade =  new FXTransaction(new String[]{"Bob", "cad", "usd", "10000000"}, "/file/path line=1");
 		assertFalse(DataValidator.sufficientUserFunds(fxTrade));
 	}
 }

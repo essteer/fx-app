@@ -89,10 +89,8 @@ public class Main {
 			return;
 		}
 
-		TransactionProcessor transactionProcessor = new TransactionProcessor();
-		for (String transaction : transactions) {
-			transactionProcessor.executeTransaction(transaction);
-		}
+		TransactionProcessor transactionProcessor = new TransactionProcessor(transactionsFilePath, transactions);
+		transactionProcessor.executeTransactions();
 
 		File newUsersFile = new File("./src/main/resources/users_updated.json");
 		loader.saveUserData(newUsersFile);

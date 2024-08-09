@@ -3,6 +3,7 @@ package com.fx.fx_app;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.junit.jupiter.api.*;
@@ -19,6 +20,8 @@ public class TransactionProcessorTest {
 	
 	private static Map<String,User> users;
 	private static Map<String, Currency> currencies;
+	private static String transactionsFilePath = "./src/main/resources/transactions.txt";
+	private static TransactionProcessor transactionProcessor;
 	
 	/**
 	 * Initialise the DataLoader and DataSession classes with User and Currency data prior to all tests in this class
@@ -32,6 +35,11 @@ public class TransactionProcessorTest {
 		currencies = loader.loadCurrencies(fxRatesFile);
 		DataSession.init(users, currencies);
 	}
+
+	@BeforeEach
+	void initialiseInstance() {
+		transactionProcessor = new TransactionProcessor(transactionsFilePath, new ArrayList<>());
+	}
 	
 	/**
 	 * Tests that the executeTransaction() method runs without error when passed valid input
@@ -39,8 +47,7 @@ public class TransactionProcessorTest {
 	@Test
 	@DisplayName("Valid input throws no errors")
 	public void test_valid_transaction() {
-		TransactionProcessor transactionProcessor = new TransactionProcessor();
-		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad usd 100"));
+		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad usd 100", transactionsFilePath));
 	}
 	
 	/**
@@ -49,8 +56,7 @@ public class TransactionProcessorTest {
 	@Test
 	@DisplayName("Invalid name skips transaction without error")
 	public void test_invalid_name() {
-		TransactionProcessor transactionProcessor = new TransactionProcessor();
-		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("xxx cad usd 100"));
+		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("xxx cad usd 100", transactionsFilePath));
 	}
 	
 	/**
@@ -59,8 +65,7 @@ public class TransactionProcessorTest {
 	@Test
 	@DisplayName("Invalid FROM currency skips transaction without error")
 	public void test_invalid_from_currency() {
-		TransactionProcessor transactionProcessor = new TransactionProcessor();
-		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob xxx usd 100"));
+		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob xxx usd 100", transactionsFilePath));
 	}
 	
 	/**
@@ -69,8 +74,7 @@ public class TransactionProcessorTest {
 	@Test
 	@DisplayName("Invalid TO currency skips transaction without error")
 	public void test_invalid_to_currency() {
-		TransactionProcessor transactionProcessor = new TransactionProcessor();
-		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad xxx 100"));
+		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad xxx 100", transactionsFilePath));
 	}
 	
 	/**
@@ -79,8 +83,7 @@ public class TransactionProcessorTest {
 	@Test
 	@DisplayName("Invalid amount skips transaction without error")
 	public void test_invalid_transaction_amount() {
-		TransactionProcessor transactionProcessor = new TransactionProcessor();
-		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad usd xxx"));
+		assertDoesNotThrow(() -> transactionProcessor.executeTransaction("Bob cad usd xxx", transactionsFilePath));
 	}
 
 }

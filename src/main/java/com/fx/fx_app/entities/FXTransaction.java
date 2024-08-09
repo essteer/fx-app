@@ -9,19 +9,22 @@ public class FXTransaction {
 	private String fromCurrency;
 	private String toCurrency;
 	private double amount;
-	
+	private String sourceData;
 	
 	/**
 	 * Constructs an FXTransaction object with the specified transaction details.
 	 *
 	 * @param transactionDetails an array of Strings containing transaction data in the format
 	 *                           {@code {"name", "fromCurrency", "toCurrency", "amount"}}
+	 * @param sourceData a String of the transactions file path plus the line the transaction appears on
 	 */
-	public FXTransaction(String[] transactionDetails) {
+	public FXTransaction(String[] transactionDetails, String sourceData) {
 		this.name = transactionDetails[0];
 		this.fromCurrency = transactionDetails[1];
 		this.toCurrency = transactionDetails[2];
 		this.amount = Double.valueOf(transactionDetails[3]);
+		this.sourceData = sourceData;
+
 	}
 
 	/**
@@ -58,6 +61,18 @@ public class FXTransaction {
 	 */
 	public double getAmount() {
 		return amount;
+	}
+
+	/**
+	 * Returns a String represenation containing transaction data and
+	 * the file path and line the data originated from.
+	 * 
+	 * @return a String representation of the instance
+	 */
+	@Override
+	public String toString() {
+
+		return this.sourceData + " {name=" + this.name + ",from=" + this.fromCurrency.toUpperCase() + ",to=" + this.toCurrency.toUpperCase() + ",amount=" + this.amount + "}";
 	}
 	
 }

@@ -8,6 +8,7 @@ import com.fx.fx_app.entities.User;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,15 +18,39 @@ public class TransactionProcessor {
 
 	private static Logger logger = LogManager.getLogger();
 	private static Converter converter = new Converter();
+	private String transactionsFilePath;
+	private List<String> transactions;
+
+	/**
+	 * Initialises class with transactions source file data.
+	 * 
+	 * @param transactions list of strings representing individual transactions
+	 */
+	public TransactionProcessor(String transactionsFilePath, List<String> transactions) {
+		this.transactionsFilePath = transactionsFilePath;
+		this.transactions = transactions;
+	}
+
+	/**
+	 * Iterates through each transaction and passes it to be executed.
+	 */
+	public void executeTransactions() {
+		for (int i = 0; i < this.transactions.size(); i++) {
+			String transaction = this.transactions.get(i);
+			int lineInFile = i + 1;
+			String sourceData = this.transactionsFilePath + " line=" + lineInFile; 
+			executeTransaction(transaction, sourceData);
+		}
+	}
 
 	/**
 	 * Initiates the process of validating a transaction. If valid, it updates the associated User's data.
 	 * 
 	 * @param transaction a String representing an individual transaction, e.g., {@code "Bob usd hkd 100"}.
 	 */
-	public void executeTransaction(String transaction) {
+	public void executeTransaction(String transaction, String sourceData) {
 		try {
-			FXTransaction fxTrade = new FXTransaction(transaction.split(" "));
+			FXTransaction fxTrade = new FXTransaction(transaction.split(" "), sourceData);
 
 			if (!(validTransaction(transaction, fxTrade))
 					|| !(validUserFunds(transaction, fxTrade))) {
