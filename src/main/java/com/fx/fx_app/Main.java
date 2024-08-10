@@ -46,11 +46,13 @@ public class Main {
 		String usersFilePath = "";
 		String currenciesFilePath = "";
 		String transactionsFilePath = "";
+		String newUsersFilePath = "";
 
 		try {
 			usersFilePath = ConfigLoader.getProperty("users.file");
 			currenciesFilePath = ConfigLoader.getProperty("currencies.file");
 			transactionsFilePath = ConfigLoader.getProperty("transactions.file");
+			newUsersFilePath = ConfigLoader.getProperty("newusers.file");
 			LogHandler.configSettingsOK();
 
 		} catch (ConfigSettingException e) {
@@ -89,7 +91,7 @@ public class Main {
 		TransactionProcessor transactionProcessor = new TransactionProcessor(transactionsFilePath, transactions);
 		transactionProcessor.executeTransactions();
 
-		File newUsersFile = new File("./src/main/resources/users_updated.json");
+		File newUsersFile = new File(newUsersFilePath);
 		loader.saveUserData(newUsersFile);
 	}
 }
