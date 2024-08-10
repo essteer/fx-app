@@ -13,7 +13,7 @@ public class ConfigSettingException extends Exception {
 	 * @param message the detail message providing context for the exception
 	 */
 	public ConfigSettingException(String message) {
-        super("Config setting not found in 'src/main/resources/config.properties': " + message);
+        super(message);
 	}
 
 }

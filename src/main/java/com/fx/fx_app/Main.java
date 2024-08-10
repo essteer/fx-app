@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.fx.fx_app.data.ConfigLoader;
 import com.fx.fx_app.data.DataIO;
 import com.fx.fx_app.data.DataSession;
 import com.fx.fx_app.data.DataValidator;
@@ -17,6 +13,8 @@ import com.fx.fx_app.entities.User;
 import com.fx.fx_app.exceptions.ConfigSettingException;
 import com.fx.fx_app.exceptions.DataSessionException;
 import com.fx.fx_app.exceptions.DataSourceException;
+import com.fx.fx_app.utils.ConfigLoader;
+import com.fx.fx_app.utils.LogHandler;
 
 /**
  * @author Elliott Steer
@@ -44,9 +42,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		Logger logger = LogManager.getLogger();
 		DataIO loader = new DataIO();
-
 		String usersFilePath = "";
 		String currenciesFilePath = "";
 		String transactionsFilePath = "";
@@ -55,13 +51,14 @@ public class Main {
 			usersFilePath = ConfigLoader.getProperty("users.file");
 			currenciesFilePath = ConfigLoader.getProperty("currencies.file");
 			transactionsFilePath = ConfigLoader.getProperty("transactions.file");
+			LogHandler.configSettingsOK();
 
 		} catch (ConfigSettingException e) {
-			logger.fatal(e.getMessage());
+			LogHandler.configSettingsError(e.getMessage());
 			System.exit(1);
 
 		} catch (IOException | NullPointerException e) {
-			logger.fatal("Config file 'src/main/resources/config.properties' not found: " + e.getMessage());
+			LogHandler.configFileLoadError(e.getMessage());
 			System.exit(1);
 		}
 
@@ -76,17 +73,17 @@ public class Main {
 
 		try {
 			DataValidator.allDataPresent(users, currencies, transactions);
+			LogHandler.sourceDataLoadOK();
 		} catch (DataSourceException e) {
-			logger.fatal(e.getMessage());
+			LogHandler.sourceDataLoadError(e.getMessage());
 			System.exit(1);
 		}
 
 		try {
 			DataSession.init(users, currencies);
-			logger.info("Data load successful");
 		} catch (DataSessionException e) {
-			logger.fatal("Data load FAILURE - aborting");
-			return;
+			LogHandler.dataSessionInitError(e.getMessage());
+			System.exit(1);
 		}
 
 		TransactionProcessor transactionProcessor = new TransactionProcessor(transactionsFilePath, transactions);

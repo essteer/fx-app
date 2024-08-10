@@ -1,4 +1,4 @@
-package com.fx.fx_app.data;
+package com.fx.fx_app.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

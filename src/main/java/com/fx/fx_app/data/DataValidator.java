@@ -40,17 +40,14 @@ public class DataValidator {
 			
 			if (currencies.isEmpty()) {
 				missingData.add("CURRENCY");
-				logger.fatal("No CURRENCY data found");
 			}
 			if (transactions.isEmpty()) {
 				missingData.add("TRANSACTION");
-				logger.fatal("No TRANSACTION data found");
 			}
 			if (users.isEmpty()) {
 				missingData.add("USER");
-				logger.fatal("No USER data found");
 			}
-			throw new DataSourceException("Missing data: " + missingData.toString() + " - check data source");
+			throw new DataSourceException(missingData.toString());
 		}
 		return true;
 	}

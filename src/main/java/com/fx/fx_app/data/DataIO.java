@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.User;
+import com.fx.fx_app.utils.LogHandler;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,7 +48,7 @@ public class DataIO {
 	public Map<String,User> loadUsers(File file) {
 		try {
 			List<User> userList = mapper.readValue(file, new TypeReference<List<User>>() {});
-			logger.info("File read successful - {}", file);
+			LogHandler.sourceDataLoadOK(file);
 			Map<String,User> userMap = createUserMap(userList);
 			logger.debug("User map creation successful");
 			return userMap;
@@ -84,7 +85,7 @@ public class DataIO {
 	public Map<String,Currency> loadCurrencies(File file) {
 		try {
 			Map<String,Currency> currencies = mapper.readValue(file, new TypeReference<Map<String,Currency>>() {});
-			logger.info("File read successful - {}", file);
+			LogHandler.sourceDataLoadOK(file);
 			return currencies;
 			
 		} catch (DatabindException | StreamReadException e) {
@@ -112,7 +113,8 @@ public class DataIO {
 				lines.add(line);
 				line = bufferedReader.readLine();
 			}
-			logger.info("File read successful - {}", file);
+			LogHandler.sourceDataLoadOK(file);
+
 			
         } catch (DatabindException | StreamReadException e) {
         	logger.fatal(e);

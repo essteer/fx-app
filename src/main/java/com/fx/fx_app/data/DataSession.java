@@ -3,12 +3,10 @@ package com.fx.fx_app.data;
 import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.User;
 import com.fx.fx_app.exceptions.DataSessionException;
+import com.fx.fx_app.utils.LogHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Singleton class for managing User and Currency data throughout a session.
@@ -17,7 +15,6 @@ public class DataSession {
 	
 	private static DataSession dataSession;
 	private static boolean initialised = false;
-	private static Logger logger;
 	private static Map<String,User> users;
 	private static Map<String,Currency> currencies;
 	
@@ -34,14 +31,13 @@ public class DataSession {
 	 */
 	public static void init(Map<String,User> userData, Map<String,Currency> currencyData) {
 		if (initialised) {
-			logger.warn("Cannot re-initialise");
+			LogHandler.dataSessionInitWarn();
 		} else {
 			dataSession = new DataSession();
 			initialised = true;
-			logger = LogManager.getLogger();
 			users = userData;
 			currencies = currencyData;
-			logger.info("Initialisation successful");
+			LogHandler.dataSessionInitOK();
 		}
 	}
 	
@@ -53,9 +49,7 @@ public class DataSession {
 	 */
 	public static DataSession getInstance() throws DataSessionException {
 		if (initialised) return dataSession;
-		logger = LogManager.getLogger();
-		DataSessionException exception = new DataSessionException("Not yet initialised");
-		logger.error(exception);
+		DataSessionException exception = new DataSessionException("cannot get instance pre-init");
 		throw exception;
 	}
 	
