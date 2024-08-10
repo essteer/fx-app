@@ -18,7 +18,7 @@ public class TransactionProcessor {
 
 	private static Logger logger = LogManager.getLogger();
 	private static Converter converter = new Converter();
-	private String transactionsFilePath;
+	private String transactionsFile;
 	private List<String> transactions;
 
 	/**
@@ -26,8 +26,8 @@ public class TransactionProcessor {
 	 * 
 	 * @param transactions list of strings representing individual transactions
 	 */
-	public TransactionProcessor(String transactionsFilePath, List<String> transactions) {
-		this.transactionsFilePath = transactionsFilePath;
+	public TransactionProcessor(String transactionsFile, List<String> transactions) {
+		this.transactionsFile = transactionsFile;
 		this.transactions = transactions;
 	}
 
@@ -38,7 +38,7 @@ public class TransactionProcessor {
 		for (int i = 0; i < this.transactions.size(); i++) {
 			String transaction = this.transactions.get(i);
 			int lineInFile = i + 1;
-			String sourceData = this.transactionsFilePath + " line=" + lineInFile; 
+			String sourceData = this.transactionsFile + " line=" + lineInFile; 
 			executeTransaction(transaction, sourceData);
 		}
 	}

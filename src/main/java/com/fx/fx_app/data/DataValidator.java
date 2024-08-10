@@ -15,6 +15,7 @@ import com.fx.fx_app.exceptions.DataSourceException;
 import com.fx.fx_app.exceptions.InsufficientFundsException;
 import com.fx.fx_app.exceptions.InvalidCurrencyException;
 import com.fx.fx_app.exceptions.UserNotFoundException;
+import com.fx.fx_app.utils.LogHandler;
 
 /**
  * Utility class for validating data received from external sources.
@@ -72,26 +73,26 @@ public class DataValidator {
 	public static boolean validTransactionDetails(FXTransaction fxTrade) {
 		boolean validDetails = true;
 		if (!(validUserName(fxTrade.getName()))) {
-			UserNotFoundException exception = new UserNotFoundException("User '" + fxTrade.getName() + "' not found");
-			logger.error(exception);
+			UserNotFoundException exception = new UserNotFoundException(fxTrade.getName());
+			LogHandler.userNotFound(fxTrade.toString(), exception.getMessage());
 			validDetails = false;
 		}
 		if (!(validCurrencyCode(fxTrade.getFromCurrency()))) {
-			InvalidCurrencyException exception = new InvalidCurrencyException("FROM currency '" + fxTrade.getFromCurrency() + "' not found");
-			logger.error(exception);
+			InvalidCurrencyException exception = new InvalidCurrencyException(fxTrade.getFromCurrency());
+			LogHandler.invalidCurrency("FROM", fxTrade.toString(), exception.getMessage());
 			validDetails = false;
 		}
 		if (!(validCurrencyCode(fxTrade.getToCurrency())) ) {
-			InvalidCurrencyException exception = new InvalidCurrencyException("TO currency '" + fxTrade.getToCurrency() + "' not found");
-			logger.error(exception);
+			InvalidCurrencyException exception = new InvalidCurrencyException(fxTrade.getToCurrency());
+			LogHandler.invalidCurrency("TO", fxTrade.toString(), exception.getMessage());
 			validDetails = false;
 		}
 		if (fxTrade.getFromCurrency().equals(fxTrade.getToCurrency())) {
-			logger.info("FROM and TO currencies match");
+			LogHandler.currenciesMatch(fxTrade.toString());
 			validDetails = false;
 		}
 		if (!(validateTransactionValue(fxTrade.getAmount())) ) {
-			logger.warn("Transaction amount '{}' invalid", fxTrade.getAmount());
+			LogHandler.invalidAmount(fxTrade.toString());
 			validDetails = false;
 		}
 		return validDetails;
@@ -106,10 +107,10 @@ public class DataValidator {
 	private static boolean validUserName(String name) {
 		Map<String,User> users = DataSession.getAllUsers();
 		if (users.containsKey(name)) {
-			logger.debug("User name '{}' OK", name);
+			LogHandler.userNamePresentInSession(name);
 			return true;
 		}
-		logger.debug("Invalid user  '{}'", name);
+		LogHandler.userNameNotPresentInSession(name);
 		return false;
 	}
 	
@@ -125,10 +126,10 @@ public class DataValidator {
 		Map<String,Currency> currencies = DataSession.getCurrencies();
 		
 		if (currency.equals(baseCurrency) || currencies.containsKey(currency)) {
-			logger.debug("Currency code '{}' OK", currency);
+			LogHandler.currencyPresentInSession(currency);
 			return true;
 		}
-		logger.debug("Invalid currency  '{}'", currency);
+		LogHandler.currencyNotPresentInSession(currency);
 		return false;
 	}
 	
@@ -166,17 +167,18 @@ public class DataValidator {
 		
 		String fromCurrency = fxTrade.getFromCurrency();
 		if (!(wallet.containsKey(fromCurrency))) {
-			String exceptionMessage = "User '" + userName + "' holds no " + fromCurrency.toUpperCase();
+			String exceptionMessage = "User holds no " + fromCurrency.toUpperCase();
 			InsufficientFundsException exception = new InsufficientFundsException(exceptionMessage);
-			logger.error(exception);
+			LogHandler.userFundsInsufficient(wallet.toString(), fxTrade.toString(), exception.getMessage());
 			return false;
 		}
 		
 		Double transactionAmount = fxTrade.getAmount();
 		if (wallet.get(fromCurrency) < transactionAmount) {
-			String exceptionMessage = "User '" + userName + "' " + fromCurrency.toUpperCase() + " insufficient (" + fromCurrency.toUpperCase() + wallet.get(fromCurrency) + ")";
+			String exceptionMessage = "User " + fromCurrency.toUpperCase() + " insufficient";
 			InsufficientFundsException exception = new InsufficientFundsException(exceptionMessage);
 			logger.error(exception);
+			LogHandler.userFundsInsufficient(wallet.toString(), fxTrade.toString(), exception.getMessage());
 			return false;
 		}
 		return true;

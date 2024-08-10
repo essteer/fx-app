@@ -88,7 +88,7 @@ public class Main {
 			System.exit(1);
 		}
 
-		TransactionProcessor transactionProcessor = new TransactionProcessor(transactionsFilePath, transactions);
+		TransactionProcessor transactionProcessor = new TransactionProcessor(transactionsFile.getName(), transactions);
 		transactionProcessor.executeTransactions();
 
 		File newUsersFile = new File(newUsersFilePath);
