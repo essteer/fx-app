@@ -19,22 +19,17 @@ import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.User;
 import com.fx.fx_app.utils.LogHandler;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * Utility class for loading and saving data files.
  */
 public class DataIO {
 	
-    private static Logger logger;
 	private ObjectMapper mapper;
 
 	/**
 	 * Initialises with Logger and ObjectMapper attributes.
 	 */
 	public DataIO() {
-		logger = LogManager.getLogger();
 		this.mapper = new ObjectMapper();
 	}
 	
@@ -50,13 +45,12 @@ public class DataIO {
 			List<User> userList = mapper.readValue(file, new TypeReference<List<User>>() {});
 			LogHandler.sourceDataLoadOK(file);
 			Map<String,User> userMap = createUserMap(userList);
-			logger.debug("User map creation successful");
 			return userMap;
 
 		} catch (DatabindException | StreamReadException e) {
-			logger.fatal(e);
+			LogHandler.ioException(e);
 		} catch (IOException e) {
-			logger.fatal(e);
+			LogHandler.ioException(e);
 		}
 		return Collections.emptyMap();
 	}
@@ -89,9 +83,9 @@ public class DataIO {
 			return currencies;
 			
 		} catch (DatabindException | StreamReadException e) {
-			logger.fatal(e);
+			LogHandler.ioException(e);
 		} catch (IOException e) {
-			logger.fatal(e);
+			LogHandler.ioException(e);
 		}
 		return Collections.emptyMap();
 	}
@@ -117,16 +111,16 @@ public class DataIO {
 
 			
         } catch (DatabindException | StreamReadException e) {
-        	logger.fatal(e);
+        	LogHandler.ioException(e);
         } catch (IOException e) {
-        	logger.fatal(e);
+        	LogHandler.ioException(e);
 
         } finally {
         	if (bufferedReader != null) {
         		try {
         		bufferedReader.close();
         		} catch (IOException e) {
-        			logger.warn("BufferedReader failed to close");
+        			LogHandler.dataReadWarning(e);
         		}
         	}
         }
@@ -142,10 +136,10 @@ public class DataIO {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {
             mapper.writeValue(file, DataSession.getAllUsers());
-            logger.info("User data save SUCCESS - {}", file.getName());
+            LogHandler.dataSaveOK(file);
         
         } catch (IOException e) {
-            logger.error("User data save FAIL - {}", e);
+            LogHandler.ioException(e);;
         }
 	}
 }

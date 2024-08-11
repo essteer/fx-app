@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.fx.fx_app.entities.BaseCurrency;
 import com.fx.fx_app.entities.Currency;
 import com.fx.fx_app.entities.FXTransaction;
@@ -22,7 +19,6 @@ import com.fx.fx_app.utils.LogHandler;
  */
 public class DataValidator {
 	
-	private static Logger logger = LogManager.getLogger();
 	private static String baseCurrency = new BaseCurrency().getBaseCurrency();
 
 	/**
@@ -177,7 +173,6 @@ public class DataValidator {
 		if (wallet.get(fromCurrency) < transactionAmount) {
 			String exceptionMessage = "User " + fromCurrency.toUpperCase() + " insufficient";
 			InsufficientFundsException exception = new InsufficientFundsException(exceptionMessage);
-			logger.error(exception);
 			LogHandler.userFundsInsufficient(wallet.toString(), fxTrade.toString(), exception.getMessage());
 			return false;
 		}
