@@ -1,11 +1,10 @@
-package com.fx.fx_app;
+package com.fx.fx_app.utils;
 
 import java.util.Map;
 
 import com.fx.fx_app.data.DataSession;
 import com.fx.fx_app.entities.BaseCurrency;
 import com.fx.fx_app.entities.Currency;
-import com.fx.fx_app.utils.LogHandler;
 
 /**
  * Utility class to convert between two currencies.

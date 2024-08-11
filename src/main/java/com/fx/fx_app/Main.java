@@ -15,6 +15,7 @@ import com.fx.fx_app.exceptions.DataSessionException;
 import com.fx.fx_app.exceptions.DataSourceException;
 import com.fx.fx_app.utils.ConfigLoader;
 import com.fx.fx_app.utils.LogHandler;
+import com.fx.fx_app.utils.TransactionProcessor;
 
 /**
  * @author Elliott Steer

@@ -1,10 +1,9 @@
-package com.fx.fx_app;
+package com.fx.fx_app.utils;
 
 import com.fx.fx_app.data.DataSession;
 import com.fx.fx_app.data.DataValidator;
 import com.fx.fx_app.entities.FXTransaction;
 import com.fx.fx_app.entities.User;
-import com.fx.fx_app.utils.LogHandler;
 
 import java.util.List;
 import java.util.Map;

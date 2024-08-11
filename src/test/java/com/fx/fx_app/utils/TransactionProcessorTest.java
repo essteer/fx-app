@@ -1,4 +1,4 @@
-package com.fx.fx_app;
+package com.fx.fx_app.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
