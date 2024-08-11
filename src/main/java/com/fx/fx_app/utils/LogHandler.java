@@ -97,5 +97,13 @@ public class LogHandler {
         logger.error("DataValidator: {} : {} : {}", exceptionMessage, wallet, fxTrade);
     }
 
+    public static void conversionOK(String fromFX, double fromAmount, String toFX, double toAmount, double rate) {
+        logger.info("Converter: {} {} to {} {} @ rate {}", fromFX, String.format("%.2f", fromAmount), toFX, String.format("%.2f", toAmount), rate);
+    }
+
+    public static void noConversionNeeded() {
+        logger.info("Converter: currency already in base currency - no operation");
+    }
+
 
 }

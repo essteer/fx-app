@@ -2,12 +2,10 @@ package com.fx.fx_app;
 
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.fx.fx_app.data.DataSession;
 import com.fx.fx_app.entities.BaseCurrency;
 import com.fx.fx_app.entities.Currency;
+import com.fx.fx_app.utils.LogHandler;
 
 /**
  * Utility class to convert between two currencies.
@@ -15,7 +13,6 @@ import com.fx.fx_app.entities.Currency;
  */
 public class Converter {
 	
-	private Logger logger = LogManager.getLogger();
 	private Map<String,Currency> currencies;
 	private String baseCurrency;
 	
@@ -51,13 +48,13 @@ public class Converter {
      */
 	private double convertToBaseCurrency(String currency, double amount) {
 		if (currency.equals(this.baseCurrency)) {
-			logger.trace("Currency already in {} - no conversion", this.baseCurrency.toUpperCase());
+			LogHandler.noConversionNeeded();
 			return amount;
 		}
 		Currency currency_record = this.currencies.get(currency);
 		double inverseRate = currency_record.getInverseRate();
 		double amountInBaseCurrency = inverseRate * amount;
-		logger.trace("Converted {}{} to {}{} @ rate {}", currency.toUpperCase(), amount, this.baseCurrency, amountInBaseCurrency, inverseRate);
+		LogHandler.conversionOK(currency.toUpperCase(), amount, this.baseCurrency.toUpperCase(), amountInBaseCurrency, inverseRate);
 		
 		return amountInBaseCurrency;
 	}
@@ -71,13 +68,13 @@ public class Converter {
      */
 	private double convertToTargetCurrency(String currency, double amount) {
 		if (currency.equals(this.baseCurrency)) {
-			logger.trace("Currency already in {} - no conversion", this.baseCurrency.toUpperCase());
+			LogHandler.noConversionNeeded();
 			return amount;
 		}
 		Currency currency_record = this.currencies.get(currency);
 		double rate = currency_record.getRate();
 		double amountInTargetCurrency = rate * amount;
-		logger.trace("Converted {}}{} to {}{} @ rate {}", this.baseCurrency, amount, currency.toUpperCase(), amountInTargetCurrency, rate);
+		LogHandler.conversionOK(this.baseCurrency.toUpperCase(), amount, currency.toUpperCase(), amountInTargetCurrency, rate);
 		
 		return amountInTargetCurrency;
 	}
