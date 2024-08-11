@@ -4,9 +4,7 @@ import com.fx.fx_app.data.DataSession;
 import com.fx.fx_app.data.DataValidator;
 import com.fx.fx_app.entities.FXTransaction;
 import com.fx.fx_app.entities.User;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import com.fx.fx_app.utils.LogHandler;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +14,6 @@ import java.util.Map;
  */
 public class TransactionProcessor {
 
-	private static Logger logger = LogManager.getLogger();
 	private static Converter converter = new Converter();
 	private String transactionsFile;
 	private List<String> transactions;
@@ -58,13 +55,13 @@ public class TransactionProcessor {
 			}
 			try {
 				execute(fxTrade);
-				logger.info("Transaction SUCCESS [{}]", transaction);
+				LogHandler.transactionOK(fxTrade.toString());
 			} catch (Exception e) {
-				logger.error("VALID TRANSACTION FAILED [{}]: {}", transaction, e);
+				LogHandler.transactionFail(fxTrade.toString(), e.getMessage());
 			}
 			
 		} catch (Exception e) {
-			logger.error("INVALID TRANSACTION [{}] skipped", transaction);
+			LogHandler.transactionInvalid(transaction, e.getMessage());
 		}
 	}
 
@@ -77,7 +74,7 @@ public class TransactionProcessor {
 	 */
 	private boolean validTransaction(String transaction, FXTransaction fxTrade) {
 		if (!(DataValidator.validTransactionDetails(fxTrade))) {
-			logger.error("INVALID TRANSACTION [{}] skipped", transaction);
+			LogHandler.transactionInvalid(fxTrade.toString());
 			return false;
 		}
 		return true;
@@ -92,7 +89,7 @@ public class TransactionProcessor {
 	 */
 	private boolean validUserFunds(String transaction, FXTransaction fxTrade) {
 		if (!(DataValidator.sufficientUserFunds(fxTrade))) {
-			logger.error("INSUFFICIENT FUNDS [{}] skipped", transaction);
+			LogHandler.transactionFundsInsufficient(fxTrade.toString());
 			return false;
 		}
 		return true;
@@ -107,7 +104,7 @@ public class TransactionProcessor {
 
 		User user = DataSession.getUser(fxTrade.getName());
 		Map<String, Double> wallet = user.getWallet();
-		logger.info("'{}' wallet pre-update: {}", fxTrade.getName(), wallet.toString());
+		LogHandler.logWalletPreTrade(fxTrade.toString(), wallet.toString());
 		
 		String fromCurrency = fxTrade.getFromCurrency();
 		String toCurrency = fxTrade.getToCurrency();
@@ -122,8 +119,7 @@ public class TransactionProcessor {
 		double newToCurrencyValue = (Math.round((toCurrencyValue + convertedAmount) * 100.0) / 100.0);
 		user.updateWallet(toCurrency, newToCurrencyValue);
 
-		logger.info("'{}' wallet post-update: {}", fxTrade.getName(), DataSession.getUser(fxTrade.getName()).getWallet());
-
+		LogHandler.logWalletPostTrade(fxTrade.toString(), DataSession.getUser(fxTrade.getName()).getWallet().toString());
 	}
 
 }

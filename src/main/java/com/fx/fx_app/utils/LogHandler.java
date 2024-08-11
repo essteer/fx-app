@@ -38,7 +38,7 @@ public class LogHandler {
     }
 
     public static void dataSaveOK(File dataFile) {
-        logger.info("DataIO: data save OK - {}", dataFile.getName());
+        logger.info("DataIO: data save OK - '{}'", dataFile.getName());
     }
 
     public static void dataSessionInitOK() {
@@ -103,6 +103,34 @@ public class LogHandler {
 
     public static void noConversionNeeded() {
         logger.info("Converter: currency already in base currency - no operation");
+    }
+
+    public static void transactionOK(String fxTrade) {
+        logger.info("TransactionProcessor: FX trade OK - " + fxTrade);
+    }
+
+    public static void transactionFail(String fxTrade, String exceptionMessage) {
+        logger.error("TransactionProcessor: FX trade failed - {} : {}", fxTrade, exceptionMessage);
+    }
+
+    public static void transactionInvalid(String fxTrade) {
+        logger.warn("TransactionProcessor: FX trade invalid - {}", fxTrade);
+    }
+
+    public static void transactionInvalid(String transaction, String exceptionMessage) {
+        logger.warn("TransactionProcessor: FX trade invalid - {} : {}", transaction, exceptionMessage);
+    }
+
+    public static void transactionFundsInsufficient(String fxTrade) {
+        logger.error("TransactionProcessor: FX trade failed - insufficient funds {}", fxTrade);
+    }
+
+    public static void logWalletPreTrade(String fxTrade, String wallet) {
+        logger.info("TransactionProcessor: pre-trade wallet {} | {}", wallet, fxTrade);
+    }
+
+    public static void logWalletPostTrade(String fxTrade, String wallet) {
+        logger.info("TransactionProcessor: post-trade wallet {} | {}", wallet, fxTrade);
     }
 
 
