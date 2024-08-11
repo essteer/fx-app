@@ -17,18 +17,23 @@ This app provides functionality for converting between different currencies. It 
   - `DataValidator`: Performs validation checks at different stages to ensure data is present and correct.
 
 - **Entities:**
+  - `BaseCurrency`: Represents the base currency used for exchange rates (set in `config.properties`).
   - `Currency`: Represents currency exchange rate data.
   - `FXTransaction`: Holds individual transaction records.
   - `User`: Represents user wallet data.
 
 - **Exceptions:**
+  - `ConfigSettingException`: Raised when settings cannot be accessed from `config.properties`.
   - `DataSessionException`: Raised when accessing a `DataSession` instance before initialisation.
+  - `DataSourceException`: Raised when source files are missing data required for the program to function.
   - `InsufficientFundsException`: Raised when a user has insufficient funds to perform a transaction.
   - `InvalidCurrencyException`: Raised when a currency code in a transaction is invalid.
   - `UserNotFoundException`: Raised when a user involved in a transaction cannot be found.
 
 - **Utility Classes:**
-  - `Converter`: Handles the conversion between two currencies.
+  - `ConfigLoader`: Loads config settings from `config.properties`.
+  - `Converter`: Handles conversions between two currencies.
+  - `LogHandler`: Manages log statements across the program.
   - `TransactionProcessor`: Validates and processes transactions.
 
 ## Installation
