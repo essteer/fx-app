@@ -62,23 +62,23 @@ public class LogHandler {
     }
 
     public static void userNamePresentInSession(String name) {
-        logger.debug("DataValidator: User {} exists in session", name);
+        logger.debug("DataValidator: user {} exists in session", name);
     }
 
     public static void userNameNotPresentInSession(String name) {
-        logger.debug("DataValidator: User {} does not exist in session", name);
+        logger.debug("DataValidator: user {} does not exist in session", name);
     }
 
     public static void currencyPresentInSession(String currency) {
-        logger.debug("DataValidator: Currency {} exists in session", currency);
+        logger.debug("DataValidator: currency {} exists in session", currency);
     }
 
     public static void currencyNotPresentInSession(String currency) {
-        logger.debug("DataValidator: Currency {} does not exist in session", currency);
+        logger.debug("DataValidator: currency {} does not exist in session", currency);
     }
 
     public static void userNotFound(String fxTrade, String exceptionMessage) {
-        logger.warn("DataValidator: User not found: {} : {}", fxTrade, exceptionMessage);
+        logger.warn("DataValidator: user not found: {} : {}", fxTrade, exceptionMessage);
     }
 
     public static void invalidCurrency(String fromOrTo, String fxTrade, String exceptionMessage) {
